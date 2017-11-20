@@ -8,13 +8,16 @@
 <body>
     <h1>Function calculator</h1>
     <form>
-        <input type="text" id="inputText"/>
-        <input type="button" value="calculate" onClick="lexer()"/>
+        <input type="text" id="inputText" />
+        <input type="button" value="calculate" onClick="lexer()" />
     </form>
+    <div class="block">
         <h3>token:</h3>
-        <textarea id="tokenText"></textarea>
-    <h3>result:</h3>
-    <textarea id="resultText"></textarea>
-
+        <textarea class="textarea" id="tokenText"></textarea>
+    </div>
+    <div class="block">
+        <h3>result:</h3>
+        <textarea class="textarea" id="resultText"></textarea>
+    </div>
 </body>
 </html>

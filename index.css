@@ -1,9 +1,8 @@
-#resultText {
+.textarea {
     width: 300px;
     height: 200px;
 }
 
-#tokenText {
-    width: 300px;
-    height: 200px;
+.block {
+    float: left;
 }
