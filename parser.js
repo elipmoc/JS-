@@ -43,26 +43,53 @@ class Parser{
 
     visitSiki() {
         var checkPoint = this._nowIndex;
-        var left = this.visitSeisu();
+        var left = this.visitKou();
         if (left != null) {
             var nowToken = this._tokenList[this._nowIndex];
-            if (this._nowIndex < this._tokenList.length &&
+            while(this._nowIndex < this._tokenList.length &&
                 nowToken.tokenType == "op" &&
                 (nowToken.str == "+" || nowToken.str == "-")) {
-                var op = nowToken.str;
+                let op = nowToken.str;
+                console.log(op);
                 this._nowIndex++;
-                var right = this.visitSeisu();
+                let right = this.visitKou();
                 if (right != null)
-                    return new BinaryExpr(left, right, op);
+                    left = new BinaryExpr(left, right, op);
+                else {
+                    this._nowIndex = checkPoint;
+                    return null;
+                }
+                nowToken = this._tokenList[this._nowIndex];
             }
-            else return left;
+            return left;
         }
         this._nowIndex = checkPoint;
         return null;
     }
 
     visitKou() {
-
+        var checkPoint = this._nowIndex;
+        var left = this.visitSeisu();
+        if (left != null) {
+            var nowToken = this._tokenList[this._nowIndex];
+            while (this._nowIndex < this._tokenList.length &&
+                nowToken.tokenType == "op" &&
+                (nowToken.str == "*" || nowToken.str == "/")) {
+                let op = nowToken.str;
+                this._nowIndex++;
+                let right = this.visitSeisu();
+                if (right != null)
+                    left=new BinaryExpr(left, right, op);
+                else{
+                    this._nowIndex = checkPoint;
+                    return null;
+                }
+                nowToken = this._tokenList[this._nowIndex];
+            }
+            return left;
+        }
+        this._nowIndex = checkPoint;
+        return null;
     }
 
     visitSeisu() {
