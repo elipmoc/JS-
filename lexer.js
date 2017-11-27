@@ -43,8 +43,8 @@ function lexer() {
 }
 
 function TokenListPrint(tokenList) {
-    var resultText = document.getElementById("tokenText");
+    var tokenText = document.getElementById("tokenText");
     tokenList.forEach(item=> {
-        resultText.value += item.tokenType+" : "+item.str+"\r\n";
+        tokenText.value += item.tokenType+" : "+item.str+"\r\n";
     });
 }
