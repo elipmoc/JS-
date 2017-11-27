@@ -12,21 +12,24 @@ class BinaryExpr {
     constructor(left,right,op) {
         this._left = left;
         this._right = right;
-        this._op = op
+        this._op = op;
     }
     result() {
-        switch (op) {
+        var leftValue=this._left.result();
+        var rightValue=this._right.result();
+
+        switch (this._op) {
             case "+":
-                return this._left + this._right;
+                return leftValue + rightValue;
                 break;
             case "-":
-                return this._left - this._right;
+                return leftValue - rightValue;
                 break;
             case "*":
-                return this._left * this._right;
+                return leftValue * rightValue;
                 break;
             case "/":
-                return this._left / this._right;
+                return leftValue / rightValue;
                 break;
         }
     }
@@ -47,9 +50,27 @@ class Parser{
         else return null;
     }
 
+    visitBinary() {
+        var checkPoint = this._nowIndex;
+        var left = this.visitValue();
+        if (left != null) {
+            if (this._nowIndex < this._tokenList.length &&
+                this._tokenList[this._nowIndex].tokenType == "op") {
+                var op = this._tokenList[this._nowIndex].str;
+                this._nowIndex++;
+                var right = this.visitValue();
+                if (right != null)
+                    return new BinaryExpr(left, right, op);
+            }
+            else left;
+        }
+        this._nowIndex = checkPoint;
+        return null;
+    }
+
     doParse() {
         var resultText = document.getElementById("resultText");
-        resultText.value= this.visitValue().result();
+        resultText.value= this.visitBinary().result();
     }
 
 
