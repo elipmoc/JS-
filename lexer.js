@@ -39,6 +39,7 @@ function lexer() {
         break;
     }
     TokenListPrint(tokenList);
+    returnn tokenList;
 }
 
 function TokenListPrint(tokenList) {
