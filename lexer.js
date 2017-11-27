@@ -44,6 +44,7 @@ function lexer() {
 
 function TokenListPrint(tokenList) {
     var tokenText = document.getElementById("tokenText");
+    tokenText.value = "";
     tokenList.forEach(item=> {
         tokenText.value += item.tokenType+" : "+item.str+"\r\n";
     });
