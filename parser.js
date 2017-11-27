@@ -38,18 +38,21 @@ class Parser{
         this._nowIndex=0;
     }
 
-    DoParse() {
-        var resultText = document.getElementById("resultText");
-        resultText.value= visitValue().result();
-    }
-
     visitValue() {
         if (this._tokenList[this._nowIndex].tokenType == "num") {
             var expr = new ValueExpr(Number(this._tokenList[this._nowIndex].str));
             this._nowIndex++;
             return expr;
         }
+        else return null;
     }
+
+    doParse() {
+        var resultText = document.getElementById("resultText");
+        resultText.value= this.visitValue().result();
+    }
+
+
 
 }
 

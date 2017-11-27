@@ -1,3 +1,4 @@
-function Start() {
-    //Œã‚Å‘‚­
+function start() {
+    var parser = new Parser(lexer());
+    parser.doParse();
 }
