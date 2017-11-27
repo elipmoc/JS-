@@ -42,27 +42,27 @@ class Parser{
     }
 
     visitSiki() {
-        return this.visitKou();
-    }
-
-    visitKou() {
         var checkPoint = this._nowIndex;
         var left = this.visitSeisu();
         if (left != null) {
-            var nowToken=this._tokenList[this._nowIndex];
+            var nowToken = this._tokenList[this._nowIndex];
             if (this._nowIndex < this._tokenList.length &&
                 nowToken.tokenType == "op" &&
-                (nowToken.str=="+" || nowToken.str=="-")) {
+                (nowToken.str == "+" || nowToken.str == "-")) {
                 var op = nowToken.str;
                 this._nowIndex++;
                 var right = this.visitSeisu();
                 if (right != null)
                     return new BinaryExpr(left, right, op);
             }
-            else left;
+            else return left;
         }
         this._nowIndex = checkPoint;
         return null;
+    }
+
+    visitKou() {
+
     }
 
     visitSeisu() {
