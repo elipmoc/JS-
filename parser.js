@@ -41,7 +41,7 @@ class Parser{
         this._nowIndex=0;
     }
 
-    visitValue() {
+    visitSeisu() {
         if (this._tokenList[this._nowIndex].tokenType == "num") {
             var expr = new ValueExpr(Number(this._tokenList[this._nowIndex].str));
             this._nowIndex++;
@@ -52,13 +52,13 @@ class Parser{
 
     visitBinary() {
         var checkPoint = this._nowIndex;
-        var left = this.visitValue();
+        var left = this.visitSeisu();
         if (left != null) {
             if (this._nowIndex < this._tokenList.length &&
                 this._tokenList[this._nowIndex].tokenType == "op") {
                 var op = this._tokenList[this._nowIndex].str;
                 this._nowIndex++;
-                var right = this.visitValue();
+                var right = this.visitSeisu();
                 if (right != null)
                     return new BinaryExpr(left, right, op);
             }
