@@ -1,6 +1,21 @@
+#inputText{
+    font-size:23px;
+    font-weight:bold;
+    width:600px;
+}
+
+#button{
+    width:130px;
+    height:40px;
+        font-size:23px;
+    font-weight:bold;
+}
+
 .textarea {
     width: 300px;
     height: 200px;
+    font-size:23px;
+    font-weight:bold;
 }
 
 .block {
