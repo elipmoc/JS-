@@ -41,22 +41,19 @@ class Parser{
         this._nowIndex=0;
     }
 
-    visitSeisu() {
-        if (this._tokenList[this._nowIndex].tokenType == "num") {
-            var expr = new ValueExpr(Number(this._tokenList[this._nowIndex].str));
-            this._nowIndex++;
-            return expr;
-        }
-        else return null;
+    visitSiki() {
+        return this.visitKou();
     }
 
-    visitBinary() {
+    visitKou() {
         var checkPoint = this._nowIndex;
         var left = this.visitSeisu();
         if (left != null) {
+            var nowToken=this._tokenList[this._nowIndex];
             if (this._nowIndex < this._tokenList.length &&
-                this._tokenList[this._nowIndex].tokenType == "op") {
-                var op = this._tokenList[this._nowIndex].str;
+                nowToken.tokenType == "op" &&
+                (nowToken.str=="+" || nowToken.str=="-")) {
+                var op = nowToken.str;
                 this._nowIndex++;
                 var right = this.visitSeisu();
                 if (right != null)
@@ -68,9 +65,18 @@ class Parser{
         return null;
     }
 
+    visitSeisu() {
+        if (this._tokenList[this._nowIndex].tokenType == "num") {
+            var expr = new ValueExpr(Number(this._tokenList[this._nowIndex].str));
+            this._nowIndex++;
+            return expr;
+        }
+        else return null;
+    }
+
     doParse() {
         var resultText = document.getElementById("resultText");
-        resultText.value= this.visitBinary().result();
+        resultText.value= this.visitSiki().result();
     }
 
 
