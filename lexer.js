@@ -8,15 +8,6 @@
     get tokenType() { return this._tokenType;}
 }
 
-
-function test() {
-    var inputText = document.getElementById("inputText").value;
-    var numRe = /^[0-9]+/g;
-    var hoge=numRe.exec(inputText);
-    document.getElementById("resultText").value = hoge 
-    document.getElementById("resultText").value += "length:"+hoge[0].length;
-}
-
 function lexer() {
     var inputText = document.getElementById("inputText").value;
     var tokenList = new Array();
