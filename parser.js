@@ -56,7 +56,7 @@ class Result {
     success(expr) { this._expr = expr; this._msg = ""; this._errorFlag = false;}
 
     error(msg) {
-        this._msg += msg;
+        this._msg += msg+"\r\n";
         this._errorFlag = true;
     }
 
