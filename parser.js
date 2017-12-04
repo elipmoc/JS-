@@ -35,6 +35,27 @@ class BinaryExpr {
     }
 }
 
+//パース結果の保存するクラス
+class Result {
+    constructor() {
+        this._msg = "";
+        this._expr=undefined;
+    }
+
+    get expr() {
+        return this._expr;
+    }
+
+    isSuccess() { return this._msg == "";}
+
+    success(expr) { this._expr = expr; this._msg = ""; }
+
+    error(msg) {
+        this._msg += msg;
+    }
+
+}
+
 class Parser{
     constructor(tokenList) {
         this._tokenList=tokenList;
