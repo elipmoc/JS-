@@ -1,20 +1,25 @@
-//EBNF
+ï»¿//EBNF
 /*
 
-®
-    :€ {("+"|"-") , € }
+å¼
+    :é … {("+"|"-") , é … }
     ;
 
-€
-    : ®” { ("*"|"/") , ®” }
+é …
+    : æ•´æ•° { ("*"|"/") , æ•´æ•° }
     ;
 
-®”
+æ•´æ•°
     : [0-9]+ 
     ;
 */
 
 function start() {
-    var parser = new Parser(lexer());
+    let  lexerRet=lexer();
+    if (lexerRet == null) {
+        document.getElementById("resultText").value = "ãƒˆãƒ¼ã‚¯ãƒ³ã‚¨ãƒ©ãƒ¼";
+        return;
+    }
+    var parser = new Parser(lexerRet);
     parser.doParse();
 }

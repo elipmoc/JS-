@@ -39,6 +39,9 @@ function lexer() {
         break;
     }
     TokenListPrint(tokenList);
+    if (inputText.length != 0) {
+        return null;
+    }
     return tokenList;
 }
 
