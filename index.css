@@ -1,17 +1,27 @@
 body{
     background-color:bisque;
-    width:100%;
-    margin-left :25%;
+    width:800px;
+    margin:0 auto;
 
     padding-left: 0px;
     padding-top: 0px;
 }
 
+#hoge{
+    background-color:darkblue;
+}
+
+#title {
+    background-color:aquamarine;
+}
+
 #inputText{
     font-size:23px;
     font-weight:bold;
-    width:70%;
+    width:800px;
 }
+
+
 
 #button{
     width:130px;
