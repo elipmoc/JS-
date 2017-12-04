@@ -1,4 +1,4 @@
-class Token {
+﻿class Token {
     constructor(tokenType, str) {
         this._str = str;
         this._tokenType = tokenType;

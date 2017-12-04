@@ -1,5 +1,5 @@
-
-//�l��\����
+﻿
+//値を表す式
 class ValueExpr {
     constructor(value) {
         this._value = value;
@@ -7,7 +7,7 @@ class ValueExpr {
     result() { return this._value;}
 }
 
-//�񍀉��Z�q��\����
+//二項演算子を表す式
 class BinaryExpr {
     constructor(left,right,op) {
         this._left = left;
@@ -35,23 +35,29 @@ class BinaryExpr {
     }
 }
 
-//�p�[�X���ʂ̕ۑ�����N���X
+//パース結果の保存するクラス
 class Result {
     constructor() {
         this._msg = "";
-        this._expr=undefined;
+        this._expr = undefined;
+        this._errorFlag = false;
     }
 
     get expr() {
         return this._expr;
     }
 
-    isSuccess() { return this._msg == "";}
+    get msg() {
+        return this._msg;
+    }
 
-    success(expr) { this._expr = expr; this._msg = ""; }
+    isSuccess() { return !this._errorFlag;}
+
+    success(expr) { this._expr = expr; this._msg = ""; this._errorFlag = false;}
 
     error(msg) {
         this._msg += msg;
+        this._errorFlag = true;
     }
 
 }
@@ -65,7 +71,7 @@ class Parser{
     visitSiki() {
         var checkPoint = this._nowIndex;
         var left = this.visitKou();
-        if (left != null) {
+        if (left.isSuccess()) {
             var nowToken = this._tokenList[this._nowIndex];
             while(this._nowIndex < this._tokenList.length &&
                 nowToken.tokenType == "op" &&
@@ -74,24 +80,25 @@ class Parser{
                 console.log(op);
                 this._nowIndex++;
                 let right = this.visitKou();
-                if (right != null)
-                    left = new BinaryExpr(left, right, op);
+                if (right.isSuccess())
+                    left.success (new BinaryExpr(left.expr, right.expr, op));
                 else {
                     this._nowIndex = checkPoint;
-                    return null;
+                    right.error("演算子\"" + op + "\"の左辺に対応する値がありません");
+                    return right;
                 }
                 nowToken = this._tokenList[this._nowIndex];
             }
             return left;
         }
         this._nowIndex = checkPoint;
-        return null;
+        return left;
     }
 
     visitKou() {
         var checkPoint = this._nowIndex;
         var left = this.visitSeisu();
-        if (left != null) {
+        if (left.isSuccess()) {
             var nowToken = this._tokenList[this._nowIndex];
             while (this._nowIndex < this._tokenList.length &&
                 nowToken.tokenType == "op" &&
@@ -99,32 +106,49 @@ class Parser{
                 let op = nowToken.str;
                 this._nowIndex++;
                 let right = this.visitSeisu();
-                if (right != null)
-                    left=new BinaryExpr(left, right, op);
+                if (right.isSuccess())
+                    left.success(new BinaryExpr(left.expr, right.expr, op));
                 else{
                     this._nowIndex = checkPoint;
-                    return null;
+                    right.error("演算子\""+op+"\"の右辺に対応する値がありません");
+                    return right;
                 }
                 nowToken = this._tokenList[this._nowIndex];
             }
             return left;
         }
         this._nowIndex = checkPoint;
-        return null;
+        return left;
     }
 
     visitSeisu() {
-        if (this._tokenList[this._nowIndex].tokenType == "num") {
-            var expr = new ValueExpr(Number(this._tokenList[this._nowIndex].str));
-            this._nowIndex++;
-            return expr;
+        let result = new Result();
+        if (this._nowIndex < this._tokenList.length) {
+            if (this._tokenList[this._nowIndex].tokenType == "num") {
+                var expr = new ValueExpr(Number(this._tokenList[this._nowIndex].str));
+                this._nowIndex++;
+
+                result.success(expr);
+                return result;
+            }
+            else {
+                result.error("整数ではありません");
+                return result;
+            }
         }
-        else return null;
+        else {
+            result.error("");
+            return result;
+        }
     }
 
     doParse() {
         var resultText = document.getElementById("resultText");
-        resultText.value= this.visitSiki().result();
+        let result=this.visitSiki();
+        if (result.isSuccess())
+            resultText.value = result.expr.result();
+        else
+            resultText.value = result.msg;
     }
 
 
