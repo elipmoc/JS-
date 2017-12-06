@@ -35,6 +35,15 @@ class BinaryExpr {
     }
 }
 
+//関数呼び出しを表す式
+class FuncCallExpr {
+    constructor(func,argList) {
+        this._func = func;
+        this._argList = argList;
+    }
+    result() { return this._func(this._argList);}
+}
+
 //パース結果の保存するクラス
 class Result {
     constructor() {
