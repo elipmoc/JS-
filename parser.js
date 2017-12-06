@@ -68,6 +68,17 @@ class Parser{
         this._nowIndex=0;
     }
 
+    visitStart() {
+        var result = this.visitSiki();
+        if (result.isSuccess()) {
+            if (this._nowIndex < this._tokenList.length) {
+                result.error("文法エラー");
+                return result;
+            }
+        }
+        return result;
+    }
+
     visitSiki() {
         var checkPoint = this._nowIndex;
         var left = this.visitKou();
@@ -97,7 +108,7 @@ class Parser{
 
     visitKou() {
         var checkPoint = this._nowIndex;
-        var left = this.visitSeisu();
+        var left = this.visitInsu();
         if (left.isSuccess()) {
             var nowToken = this._tokenList[this._nowIndex];
             while (this._nowIndex < this._tokenList.length &&
@@ -105,7 +116,7 @@ class Parser{
                 (nowToken.str == "*" || nowToken.str == "/")) {
                 let op = nowToken.str;
                 this._nowIndex++;
-                let right = this.visitSeisu();
+                let right = this.visitInsu();
                 if (right.isSuccess())
                     left.success(new BinaryExpr(left.expr, right.expr, op));
                 else{
@@ -119,6 +130,33 @@ class Parser{
         }
         this._nowIndex = checkPoint;
         return left;
+    }
+
+    visitInsu() {
+        if (this._nowIndex >= this._tokenList.length) {
+            let result = new Result();
+            result.error("");
+            return result;
+        }
+        let checkPoint = this._nowIndex;
+        if (this._tokenList[this._nowIndex].str == "(") {
+            this._nowIndex++;
+            let result = this.visitSiki();
+            if (result.isSuccess()) {
+                if (this._nowIndex < this._tokenList.length && this._tokenList[this._nowIndex].str == ")") {
+                    this._nowIndex++;
+                    return result;
+                }
+                result.error("左かっこに対応する右かっこがありません");
+            }
+            this._nowIndex = checkPoint;
+            return result;
+        }
+
+        let result = this.visitSeisu();
+        if (!result.isSuccess())
+            this._nowIndex = checkPoint;
+        return result;
     }
 
     visitSeisu() {
@@ -144,7 +182,7 @@ class Parser{
 
     doParse() {
         var resultText = document.getElementById("resultText");
-        let result=this.visitSiki();
+        let result=this.visitStart();
         if (result.isSuccess())
             resultText.value = result.expr.result();
         else
