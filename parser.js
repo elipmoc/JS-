@@ -188,8 +188,5 @@ class Parser{
         else
             resultText.value = result.msg;
     }
-
-
-
 }
 

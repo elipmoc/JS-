@@ -14,6 +14,7 @@ function lexer() {
     var numRe = /^[0-9]+/;
     var opRe = /^[\+\-\*\/]/;
     var simbolRe = /^[()]/;
+    var skipRe = /^ /;
     var temp;
     while (true) {
         temp = numRe.exec(inputText);
@@ -32,6 +33,11 @@ function lexer() {
         if (temp != null) {
             inputText = inputText.substr(temp[0].length);
             tokenList.push(new Token("simbol", temp[0]));
+            continue;
+        }
+        temp = skipRe.exec(inputText);
+        if (temp != null) {
+            inputText = inputText.substr(temp[0].length);
             continue;
         }
         break;
