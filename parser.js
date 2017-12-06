@@ -41,7 +41,10 @@ class FuncCallExpr {
         this._func = func;
         this._argList = argList;
     }
-    result() { return this._func(this._argList);}
+    result() {
+
+        return this._func(this._argList.map((x) => { return x.result();}));
+    }
 }
 
 //パース結果の保存するクラス
@@ -74,7 +77,8 @@ class Result {
 class Parser{
     constructor(tokenList) {
         this._tokenList=tokenList;
-        this._nowIndex=0;
+        this._nowIndex = 0;
+        this._intrinsicFuncTable = new IntrinsicFuncTable();
     }
 
     visitStart() {
@@ -117,7 +121,7 @@ class Parser{
 
     visitKou() {
         var checkPoint = this._nowIndex;
-        var left = this.visitInsu();
+        var left = this.visitCallFunc();
         if (left.isSuccess()) {
             var nowToken = this._tokenList[this._nowIndex];
             while (this._nowIndex < this._tokenList.length &&
@@ -125,7 +129,7 @@ class Parser{
                 (nowToken.str == "*" || nowToken.str == "/")) {
                 let op = nowToken.str;
                 this._nowIndex++;
-                let right = this.visitInsu();
+                let right = this.visitCallFuncSSS();
                 if (right.isSuccess())
                     left.success(new BinaryExpr(left.expr, right.expr, op));
                 else{
@@ -139,6 +143,31 @@ class Parser{
         }
         this._nowIndex = checkPoint;
         return left;
+    }
+
+    visitCallFunc() {
+        var checkPoint = this._nowIndex;
+        if (this._nowIndex < this._tokenList.length && this._tokenList[this._nowIndex].tokenType == "identifier") {
+            let funcName=this._tokenList[this._nowIndex].str;
+            this._nowIndex++;
+            let argList=new Array();
+            while (true) {
+                let insu = this.visitInsu();
+                if (!insu.isSuccess())
+                    break;
+                argList.push(insu.expr);
+            }
+            let func = this._intrinsicFuncTable.match(funcName, argList.length);
+            let result = new Result();
+            if (func != null) {
+                result.success(new FuncCallExpr(func, argList));
+                return result;
+            }
+            result.error("引数の数が不正です");
+            this._nowIndex = checkPoint;
+            return result;
+        }
+        return this.visitInsu();
     }
 
     visitInsu() {
