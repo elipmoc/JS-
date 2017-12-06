@@ -129,7 +129,7 @@ class Parser{
                 (nowToken.str == "*" || nowToken.str == "/")) {
                 let op = nowToken.str;
                 this._nowIndex++;
-                let right = this.visitCallFuncSSS();
+                let right = this.visitCallFunc();
                 if (right.isSuccess())
                     left.success(new BinaryExpr(left.expr, right.expr, op));
                 else{
