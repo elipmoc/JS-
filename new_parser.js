@@ -204,7 +204,7 @@ class Parser {
                 }
                 let argResult = this.visitFuncName();
                 if (argResult.isSuccess()) {
-                    if (result.expr.needArgs == 0) {
+                    if (result.expr.needArgs == 1) {
                         result.error("関数に渡す引数の数が不正です");
                         this._nowIndex = checkPoint;
                         return result;
