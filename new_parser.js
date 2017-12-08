@@ -47,12 +47,18 @@ class FuncType {
     }
 
     Do(arg) {
-        if (this._argList.length == this._funcInfo["args"])
+        if (this.needArgs==0)
             return this._funcInfo["body"](this._argList);
         if (arg != undefined)
             this._argList.push(arg);
         return new FuncType(this._funcInfo, this._argList);
     }
+
+    get needArgs() {
+        return this._funcInfo["args"] - this._argList.length;
+    }
+
+
 }
 
 //関数を呼び出しを表す式
@@ -65,4 +71,49 @@ class FuncCallExpr {
     result() {
         return this._funcType.Do(this._arg);
     }
+
+    get needArgs() {
+        return this._funcType.needArgs;
+    }
+}
+
+//パース結果の保存するクラス
+class Result {
+    constructor() {
+        this._msg = "";
+        this._expr = undefined;
+        this._errorFlag = false;
+    }
+
+    get expr() {
+        return this._expr;
+    }
+
+    get msg() {
+        return this._msg;
+    }
+
+    isSuccess() { return !this._errorFlag; }
+
+    success(expr) { this._expr = expr; this._msg = ""; this._errorFlag = false; }
+
+    error(msg) {
+        this._msg += msg + "\r\n";
+        this._errorFlag = true;
+    }
+}
+
+class Parser {
+    constructor(tokenList) {
+        this._tokenList = tokenList;
+        this._nowIndex = 0;
+        this._intrinsicFuncTable = new IntrinsicFuncTable();
+    }
+
+    visitExpr() { }
+    visitAddExpr() { }
+    visitMulExpr() { }
+    visitFuncCall() { }
+    visitFuncName() { }
+    visitWrapExpr() { }
 }
