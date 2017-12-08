@@ -1,4 +1,4 @@
-//’l‚ğ•\‚·®
+ï»¿//å€¤ã‚’è¡¨ã™å¼
 class ValueExpr {
     constructor(value) {
         this._value = value;
@@ -6,7 +6,7 @@ class ValueExpr {
     result() { return this._value; }
 }
 
-//“ñ€‰‰Zq‚ğ•\‚·®
+//äºŒé …æ¼”ç®—å­ã‚’è¡¨ã™å¼
 class BinaryExpr {
     constructor(left, right, op) {
         this._left = left;
@@ -34,8 +34,8 @@ class BinaryExpr {
     }
 }
 
-//ŠÖ”Œ^
-//ˆø”‚Ì”‚ª‡‚¤‚Ü‚Å’x‰„•]‰¿
+//é–¢æ•°å‹
+//å¼•æ•°ã®æ•°ãŒåˆã†ã¾ã§é…å»¶è©•ä¾¡
 class FuncType {
     constructor(funcInfo, argList) {
         this._funcInfo = funcInfo;
@@ -49,8 +49,11 @@ class FuncType {
     Do(arg) {
         if (this.needArgs==0)
             return this._funcInfo["body"](this._argList);
-        if (arg != undefined)
+        if (arg != undefined) {
             this._argList.push(arg);
+            if (this.needArgs == 0)
+                return this._funcInfo["body"](this._argList);
+        }
         return new FuncType(this._funcInfo, this._argList);
     }
 
@@ -61,15 +64,20 @@ class FuncType {
 
 }
 
-//ŠÖ”‚ğŒÄ‚Ño‚µ‚ğ•\‚·®
+
+//é–¢æ•°ã‚’å‘¼ã³å‡ºã—ã‚’è¡¨ã™å¼
 class FuncCallExpr {
-    //iŠÖ”Œ^,ˆø”ˆê‚Âj
+    //ï¼ˆé–¢æ•°å‹,å¼•æ•°ä¸€ã¤ï¼‰
     constructor(funcType, arg) {
         this._funcType = funcType;
         this._arg = arg;
     }
     result() {
-        return this._funcType.Do(this._arg);
+        if (this._arg != undefined) {
+            return this._funcType.Do(this._arg.result());
+        }
+        return this._funcType.Do();
+
     }
 
     get needArgs() {
@@ -77,7 +85,7 @@ class FuncCallExpr {
     }
 }
 
-//ƒp[ƒXŒ‹‰Ê‚Ì•Û‘¶‚·‚éƒNƒ‰ƒX
+//ãƒ‘ãƒ¼ã‚¹çµæœã®ä¿å­˜ã™ã‚‹ã‚¯ãƒ©ã‚¹
 class Result {
     constructor() {
         this._msg = "";
@@ -110,11 +118,20 @@ class Parser {
         this._intrinsicFuncTable = new IntrinsicFuncTable();
     }
 
+    doParse() {
+        var resultText = document.getElementById("resultText");
+        let result = this.visitExpr();
+        if (result.isSuccess())
+            resultText.value = result.expr.result();
+        else
+            resultText.value = result.msg;
+    }
+
     visitExpr() {
         var result = this.visitAddExpr();
         if (result.isSuccess()) {
             if (this._nowIndex < this._tokenList.length) {
-                result.error("•¶–@ƒGƒ‰[");
+                result.error("æ–‡æ³•ã‚¨ãƒ©ãƒ¼");
                 return result;
             }
         }
@@ -130,14 +147,13 @@ class Parser {
                 nowToken.tokenType == "op" &&
                 (nowToken.str == "+" || nowToken.str == "-")) {
                 let op = nowToken.str;
-                console.log(op);
                 this._nowIndex++;
                 let right = this.visitMulExpr();
                 if (right.isSuccess())
                     left.success(new BinaryExpr(left.expr, right.expr, op));
                 else {
                     this._nowIndex = checkPoint;
-                    right.error("‰‰Zq\"" + op + "\"‚Ì¶•Ó‚É‘Î‰‚·‚é’l‚ª‚ ‚è‚Ü‚¹‚ñ");
+                    right.error("æ¼”ç®—å­\"" + op + "\"ã®å·¦è¾ºã«å¯¾å¿œã™ã‚‹å€¤ãŒã‚ã‚Šã¾ã›ã‚“");
                     return right;
                 }
                 nowToken = this._tokenList[this._nowIndex];
@@ -163,7 +179,7 @@ class Parser {
                     left.success(new BinaryExpr(left.expr, right.expr, op));
                 else {
                     this._nowIndex = checkPoint;
-                    right.error("‰‰Zq\"" + op + "\"‚Ì‰E•Ó‚É‘Î‰‚·‚é’l‚ª‚ ‚è‚Ü‚¹‚ñ");
+                    right.error("æ¼”ç®—å­\"" + op + "\"ã®å³è¾ºã«å¯¾å¿œã™ã‚‹å€¤ãŒã‚ã‚Šã¾ã›ã‚“");
                     return right;
                 }
                 nowToken = this._tokenList[this._nowIndex];
@@ -174,7 +190,84 @@ class Parser {
         return left;
     }
 
-    visitFuncCall() { }
-    visitFuncName() { }
-    visitWrapExpr() { }
+    visitFuncCall() {
+        var checkPoint = this._nowIndex;
+        let result = this.visitFuncName();
+        if (result.isSuccess()) {
+
+            while (true) {
+                if (("needArgs" in result.expr) == false) {
+                    if (!this.visitFuncName().isSuccess()) break;
+                    result.error("é–¢æ•°ã§ã¯ãªã„ã‚‚ã®ã«å¼•æ•°ã‚’æ¸¡ãã†ã¨ã—ã¾ã—ãŸ");
+                    this._nowIndex = checkPoint;
+                    return result;
+                }
+                let argResult = this.visitFuncName();
+                if (argResult.isSuccess()) {
+                    if (result.expr.needArgs == 0) {
+                        result.error("é–¢æ•°ã«æ¸¡ã™å¼•æ•°ã®æ•°ãŒä¸æ­£ã§ã™");
+                        this._nowIndex = checkPoint;
+                        return result;
+                    }
+                    result.success(new FuncCallExpr(result.expr.result(), argResult.expr))
+                }
+                else
+                {
+                    break;
+                }
+            }            
+        }
+        return result;
+
+    }
+
+    visitFuncName() {
+        if (this._nowIndex >= this._tokenList.length) {
+            let result=new Result();
+            result.error("");
+            return result;
+        }
+
+        let result = new Result();
+        if (this._tokenList[this._nowIndex].tokenType == "num") {
+            result.success(new ValueExpr(Number(this._tokenList[this._nowIndex].str)));
+            this._nowIndex++;
+            return result;
+        }
+        else if (this._tokenList[this._nowIndex].tokenType == "identifier") {
+            let funcName = this._tokenList[this._nowIndex].str;
+            let funcInfo = this._intrinsicFuncTable.getFuncInfo(funcName);
+            if (funcInfo != null) {
+                result.success(new FuncCallExpr(new FuncType(funcInfo)));
+                this._nowIndex++;
+                return result;
+            }
+            result.error("å®šç¾©ã•ã‚Œã¦ã„ãªã„è­˜åˆ¥å­ã§ã™");
+            return result;
+        }
+        else {
+           return this.visitWrapExpr();
+        }
+    }
+
+    visitWrapExpr() {
+        let checkPoint = this._nowIndex;
+        if (this._tokenList[this._nowIndex].str == "(") {
+            this._nowIndex++;
+            let result = this.visitAddExpr();
+            if (result.isSuccess()) {
+                if (this._nowIndex < this._tokenList.length && this._tokenList[this._nowIndex].str == ")") {
+                    this._nowIndex++;
+                    return result;
+                }
+                result.error("å·¦ã‹ã£ã“ã«å¯¾å¿œã™ã‚‹å³ã‹ã£ã“ãŒã‚ã‚Šã¾ã›ã‚“");
+            }
+            this._nowIndex = checkPoint;
+            return result;
+        }
+        let result = new Result();
+        result.error("");
+        this._nowIndex = checkPoint;
+        return result;
+    }
 }

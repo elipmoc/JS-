@@ -20,4 +20,10 @@ class IntrinsicFuncTable {
         }
         return null;
     }
+
+    getFuncInfo(funcName) {
+        if (funcName in this._funcArray)
+            return  this._funcArray[funcName];
+        return null;
+    }
 }
