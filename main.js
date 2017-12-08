@@ -30,6 +30,51 @@ alpha
     ;
 */
 
+
+/*
+新BNF考案
+
+expr
+    : addExpr
+    ;
+
+addExpr
+    : mulExpr , { addOp,mulExpr}
+    ;
+
+mulExpr
+    : funcCall , {mulOp,funcCall}
+    ;
+
+funcCall
+    : funcName ,{funcName}
+    ;
+
+funcName
+    : id | num |wrapExpr
+    ;
+
+addOp
+    : '+' | '-'
+    ;
+
+mulOp
+    : '*' | '/'
+    ;
+
+id
+    : [a-z] , { [a-z] | [A-Z] | [0-9]}
+    ;
+
+num
+    : [0-9]+
+    ;
+
+wrapExpr
+    : '(' , expr , ')'
+    ;
+*/
+
 function start() {
     let  lexerRet=lexer();
     if (lexerRet == null) {
