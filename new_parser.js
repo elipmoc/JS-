@@ -110,9 +110,70 @@ class Parser {
         this._intrinsicFuncTable = new IntrinsicFuncTable();
     }
 
-    visitExpr() { }
-    visitAddExpr() { }
-    visitMulExpr() { }
+    visitExpr() {
+        var result = this.visitAddExpr();
+        if (result.isSuccess()) {
+            if (this._nowIndex < this._tokenList.length) {
+                result.error("文法エラー");
+                return result;
+            }
+        }
+        return result;
+    }
+
+    visitAddExpr() {
+        var checkPoint = this._nowIndex;
+        var left = this.visitMulExpr();
+        if (left.isSuccess()) {
+            var nowToken = this._tokenList[this._nowIndex];
+            while (this._nowIndex < this._tokenList.length &&
+                nowToken.tokenType == "op" &&
+                (nowToken.str == "+" || nowToken.str == "-")) {
+                let op = nowToken.str;
+                console.log(op);
+                this._nowIndex++;
+                let right = this.visitMulExpr();
+                if (right.isSuccess())
+                    left.success(new BinaryExpr(left.expr, right.expr, op));
+                else {
+                    this._nowIndex = checkPoint;
+                    right.error("演算子\"" + op + "\"の左辺に対応する値がありません");
+                    return right;
+                }
+                nowToken = this._tokenList[this._nowIndex];
+            }
+            return left;
+        }
+        this._nowIndex = checkPoint;
+        return left;
+    }
+
+    visitMulExpr() {
+        var checkPoint = this._nowIndex;
+        var left = this.visitFuncCall();
+        if (left.isSuccess()) {
+            var nowToken = this._tokenList[this._nowIndex];
+            while (this._nowIndex < this._tokenList.length &&
+                nowToken.tokenType == "op" &&
+                (nowToken.str == "*" || nowToken.str == "/")) {
+                let op = nowToken.str;
+                this._nowIndex++;
+                let right = this.visitFuncCall();
+                if (right.isSuccess())
+                    left.success(new BinaryExpr(left.expr, right.expr, op));
+                else {
+                    this._nowIndex = checkPoint;
+                    right.error("演算子\"" + op + "\"の右辺に対応する値がありません");
+                    return right;
+                }
+                nowToken = this._tokenList[this._nowIndex];
+            }
+            return left;
+        }
+        this._nowIndex = checkPoint;
+        return left;
+    }
+
     visitFuncCall() { }
     visitFuncName() { }
     visitWrapExpr() { }
