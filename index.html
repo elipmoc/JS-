@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
 <html>
+
 <head>
     <title>)^o^(</title>
     <meta charset="UTF-8">
@@ -9,21 +10,23 @@
     <script type="text/javascript" src="new_parser.js"></script>
     <link rel="stylesheet" type="text/css" href="index.css" />
 </head>
+
 <body>
-    <div id="hoge">
+    <div>
         <h1 id="title">Function calculator</h1>
         <form>
-            <input type="text" id="inputText" oninput="start()" />
+            <input autofocus type="text" id="inputText" oninput="start()" />
             <input type="text" name="dummy" style="display:none;">
         </form>
         <div class="block">
             <h3>token:</h3>
-            <textarea class="textarea" id="tokenText"></textarea>
+            <textarea disabled class="textarea" id="tokenText"></textarea>
         </div>
         <div class="block">
             <h3>result:</h3>
-            <textarea class="textarea" id="resultText"></textarea>
+            <textarea disabled class="textarea" id="resultText"></textarea>
         </div>
     </div>
 </body>
+
 </html>

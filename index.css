@@ -7,15 +7,13 @@ body{
     padding-top: 0px;
 }
 
-#hoge{
-    background-color:darkblue;
-}
-
 #title {
+    box-shadow:1px 1px 3px 0px rgba(70, 70, 70, 10);
     background-color:aquamarine;
 }
 
 #inputText{
+    box-shadow:5px 5px 3px 0px rgba(70, 70, 70, 10);
     font-size:23px;
     font-weight:bold;
     width:800px;
@@ -31,6 +29,7 @@ body{
 }
 
 .textarea {
+    box-shadow:1px 1px 3px 0px rgba(70, 70, 70, 10);
     width: 300px;
     height: 200px;
     font-size:23px;
