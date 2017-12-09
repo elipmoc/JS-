@@ -1,3 +1,3 @@
 <?php
 
-echo "Hello, Heroku!!!";
+echo file_get_contents("index.html");
