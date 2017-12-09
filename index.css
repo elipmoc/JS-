@@ -2,7 +2,7 @@ body{
     background-color:bisque;
     
     margin:0 auto;
-
+    width: 100vw;
     padding-left: 0px;
     padding-top: 0px;
 }
