@@ -5,16 +5,16 @@
     }
 
     get str() { return this._str; }
-    get tokenType() { return this._tokenType;}
+    get tokenType() { return this._tokenType; }
 }
 
 function lexer() {
     var inputText = document.getElementById("inputText").value;
     var tokenList = new Array();
     var numRe = /^[0-9]+/;
-    var opRe = /^[\+\-\*\/]/;
+    var opRe = /^[\+\-\*\/÷×＊]/;
     var simbolRe = /^[()]/;
-    var identifierRe =/^[a-z]([a-z]|[A-Z]|[0-9])*/;
+    var identifierRe = /^[a-z]([a-z]|[A-Z]|[0-9])*/;
     var skipRe = /^ /;
     var temp;
     while (true) {
@@ -59,7 +59,7 @@ function lexer() {
 function TokenListPrint(tokenList) {
     var tokenText = document.getElementById("tokenText");
     tokenText.value = "";
-    tokenList.forEach(item=> {
-        tokenText.value += item.tokenType+" : "+item.str+"\r\n";
+    tokenList.forEach(item => {
+        tokenText.value += item.tokenType + " : " + item.str + "\r\n";
     });
 }

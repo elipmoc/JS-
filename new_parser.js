@@ -25,9 +25,12 @@ class BinaryExpr {
                 return leftValue - rightValue;
                 break;
             case "*":
+            case "×":
+            case "＊":
                 return leftValue * rightValue;
                 break;
             case "/":
+            case "÷":
                 return leftValue / rightValue;
                 break;
         }
@@ -47,7 +50,7 @@ class FuncType {
     }
 
     Do(arg) {
-        if (this.needArgs==0)
+        if (this.needArgs == 0)
             return this._funcInfo["body"](this._argList);
         if (arg != undefined) {
             this._argList.push(arg);
@@ -171,7 +174,7 @@ class Parser {
             var nowToken = this._tokenList[this._nowIndex];
             while (this._nowIndex < this._tokenList.length &&
                 nowToken.tokenType == "op" &&
-                (nowToken.str == "*" || nowToken.str == "/")) {
+                (nowToken.str == "*" || nowToken.str == "/" || nowToken.str == "＊" || nowToken.str == "×" || nowToken.str == "÷")) {
                 let op = nowToken.str;
                 this._nowIndex++;
                 let right = this.visitFuncCall();
@@ -211,11 +214,10 @@ class Parser {
                     }
                     result.success(new FuncCallExpr(result.expr.result(), argResult.expr))
                 }
-                else
-                {
+                else {
                     break;
                 }
-            }            
+            }
         }
         return result;
 
@@ -223,7 +225,7 @@ class Parser {
 
     visitFuncName() {
         if (this._nowIndex >= this._tokenList.length) {
-            let result=new Result();
+            let result = new Result();
             result.error("");
             return result;
         }
@@ -246,7 +248,7 @@ class Parser {
             return result;
         }
         else {
-           return this.visitWrapExpr();
+            return this.visitWrapExpr();
         }
     }
 
