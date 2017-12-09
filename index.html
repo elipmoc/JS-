@@ -1,23 +1,29 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <title>)^o^(</title>
+    <meta charset="UTF-8">
+    <script type="text/javascript" src="intrinsicFuncTable.js"></script>
+    <script type="text/javascript" src="main.js"></script>
     <script type="text/javascript" src="lexer.js"></script>
+    <script type="text/javascript" src="new_parser.js"></script>
     <link rel="stylesheet" type="text/css" href="index.css" />
 </head>
 <body>
-    <h1>Function calculator</h1>
-    <form>
-        <input type="text" id="inputText" />
-        <input type="button" value="calculate" onClick="lexer()" />
-    </form>
-    <div class="block">
-        <h3>token:</h3>
-        <textarea class="textarea" id="tokenText"></textarea>
-    </div>
-    <div class="block">
-        <h3>result:</h3>
-        <textarea class="textarea" id="resultText"></textarea>
+    <div id="hoge">
+        <h1 id="title">Function calculator</h1>
+        <form>
+            <input type="text" id="inputText" oninput="start()" />
+            <input type="text" name="dummy" style="display:none;">
+        </form>
+        <div class="block">
+            <h3>token:</h3>
+            <textarea class="textarea" id="tokenText"></textarea>
+        </div>
+        <div class="block">
+            <h3>result:</h3>
+            <textarea class="textarea" id="resultText"></textarea>
+        </div>
     </div>
 </body>
 </html>
