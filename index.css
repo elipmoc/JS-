@@ -1,6 +1,6 @@
 body{
     background-color:bisque;
-    width:800px;
+    
     margin:0 auto;
 
     padding-left: 0px;
@@ -16,7 +16,7 @@ body{
     box-shadow:5px 5px 3px 0px rgba(70, 70, 70, 10);
     font-size:23px;
     font-weight:bold;
-    width:800px;
+    width:90%;
 }
 
 
