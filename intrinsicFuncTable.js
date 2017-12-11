@@ -7,7 +7,7 @@ class IntrinsicFuncTable {
                 , "min": { "body": (a) => { return a[0] > a[1] ? a[1] : a[0] }, "args": 2 }
                 , "equal": { "body": (a) => { return a[0] == a[1] }, "args": 2 }
                 , "if": { "body": (a) => { return a[0] ? a[1] : a[2] }, "args": 3 }
-                , "flip": { "body": (a) => { return a[0].Do(a[2]).Do(a[1]); }, "args": 3 }
+                , "flip": { "body": (a) => {return a[0].Do(a[2]).Do(a[1]); }, "args": 3 }
                 , "sub": { "body": (a) => { return a[0] - a[1]; }, "args": 2 }
             }
     }

@@ -1,9 +1,11 @@
-﻿//値を表す式
+﻿
+//値を表す式
 class ValueExpr {
     constructor(value) {
         this._value = value;
     }
     result() { return this._value; }
+    get needArgs() { return 0; }
 }
 
 //二項演算子を表す式
@@ -35,6 +37,7 @@ class BinaryExpr {
                 break;
         }
     }
+    get needArgs() { return 0; }
 }
 
 //関数型
@@ -44,18 +47,22 @@ class FuncType {
         this._funcInfo = funcInfo;
 
         if (argList != undefined)
-            this._argList = argList;
+            this._argList = argList.concat();
         else
             this._argList = new Array();
+        console.log(this._argList);
     }
 
     Do(arg) {
-        if (this.needArgs == 0)
+        if (this.needArgs == 0) {
             return this._funcInfo["body"](this._argList);
+        }
         if (arg != undefined) {
-            this._argList.push(arg);
-            if (this.needArgs == 0)
-                return this._funcInfo["body"](this._argList);
+            let newArgList = this._argList.concat();
+            newArgList.push(arg);
+            if (this._funcInfo["args"] - newArgList.length == 0)
+                return this._funcInfo["body"](newArgList);
+            return new FuncType(this._funcInfo, newArgList);
         }
         return new FuncType(this._funcInfo, this._argList);
     }
@@ -63,8 +70,6 @@ class FuncType {
     get needArgs() {
         return this._funcInfo["args"] - this._argList.length;
     }
-
-
 }
 
 
@@ -72,6 +77,7 @@ class FuncType {
 class FuncCallExpr {
     //（関数型,引数一つ）
     constructor(funcType, arg) {
+        console.log("create");
         this._funcType = funcType;
         this._arg = arg;
     }
@@ -205,14 +211,27 @@ class Parser {
                     this._nowIndex = checkPoint;
                     return result;
                 }
+
+                let func = result.expr.result();
+                if (
+                    (typeof func!="object") || 
+                    (("needArgs" in func) == false)
+                    ) {
+                    if (!this.visitFuncName().isSuccess()) break;
+                    result.error("関数ではないものに引数を渡そうとしました");
+                    this._nowIndex = checkPoint;
+                    return result;
+                }
+                
                 let argResult = this.visitFuncName();
                 if (argResult.isSuccess()) {
-                    if (result.expr.needArgs == 1) {
+                    console.log("arg send");
+                   /* if (result.expr.needArgs == 1) {
                         result.error("関数に渡す引数の数が不正です");
                         this._nowIndex = checkPoint;
                         return result;
-                    }
-                    result.success(new FuncCallExpr(result.expr.result(), argResult.expr))
+                    }*/
+                    result.success(new FuncCallExpr(func, argResult.expr))
                 }
                 else {
                     break;
