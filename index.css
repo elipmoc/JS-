@@ -30,7 +30,7 @@ body{
 .textarea {
     box-shadow:1px 1px 3px 0px rgba(70, 70, 70, 10);
     width: 45vw;
-    height: 200px;
+    height: 50vh;
     font-size:23px;
     color: black;
     font-weight:bold;
