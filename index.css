@@ -7,13 +7,15 @@ body{
 #title {
     box-shadow:1px 1px 3px 0px rgba(70, 70, 70, 10);
     background-color:aquamarine;
+    width:90vw;
+    display: inline-block;
 }
 
 #inputText{
     box-shadow:5px 5px 3px 0px rgba(70, 70, 70, 10);
     font-size:23px;
     font-weight:bold;
-    width:90%;
+    width:85vw;
 }
 
 
@@ -27,7 +29,7 @@ body{
 
 .textarea {
     box-shadow:1px 1px 3px 0px rgba(70, 70, 70, 10);
-    width: 40vw;
+    width: 45vw;
     height: 200px;
     font-size:23px;
     color: black;
