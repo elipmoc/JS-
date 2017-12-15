@@ -8,5 +8,4 @@ $app->register(new Herrera\Pdo\PdoServiceProvider(),
                )
 );
 
-var_dump($app);
 echo file_get_contents("index.html");
