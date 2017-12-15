@@ -24,17 +24,6 @@ class IntrinsicFuncTable {
             }
     }
 
-    //É}ÉbÉ`Ç∑ÇÈä÷êîÇï‘Ç∑
-    match(funcName, args) {
-        if (funcName in this._funcArray) {
-            let funcInfo = this._funcArray[funcName];
-            if (funcInfo["args"] == args) {
-                return funcInfo["body"];
-            }
-        }
-        return null;
-    }
-
     getFuncInfo(funcName) {
         if (funcName in this._funcArray)
             return  this._funcArray[funcName];
