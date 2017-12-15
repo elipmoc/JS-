@@ -16,9 +16,11 @@ $app->register(new Herrera\Pdo\PdoServiceProvider(),
                    'pdo.password' => $dbopts["pass"]
                )
 );
+
 $stmt = $app["pdo"]->query("SELECT count FROM hoge");
 while($row = $stmt -> fetch(PDO::FETCH_ASSOC)) {
     echo $row["count"];
     echo "<br>";
 }
-//echo file_get_contents("index.html");
+$app["pdo"]->exec("UPDATE hoge SET count = count + 1");
+echo file_get_contents("index.html");
