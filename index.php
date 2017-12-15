@@ -21,4 +21,4 @@ while($row = $stmt -> fetch(PDO::FETCH_ASSOC)) {
     echo $rom["count"];
     echo "<br>";
 }
-echo file_get_contents("index.html");
+//echo file_get_contents("index.html");
