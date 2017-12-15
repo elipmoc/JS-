@@ -6,14 +6,15 @@
     <meta name="viewport" content="width=device-width">
     <meta charset="UTF-8">
     <script type="text/javascript" src="intrinsicFuncTable.js"></script>
+    <script type="text/javascript" src="operatorTable.js"></script>
     <script type="text/javascript" src="main.js"></script>
     <script type="text/javascript" src="lexer.js"></script>
-    <script type="text/javascript" src="new_parser.js"></script>
+    <script type="text/javascript" src="parser.js"></script>
     <link rel="stylesheet" type="text/css" href="index.css" />
 </head>
 
 <body>
-    <div>
+    <div id="mainDiv">
         <h1 id="title">Function Calculator</h1>
         <form>
             <input autofocus type="text" id="inputText" oninput="start()" />
@@ -30,6 +31,43 @@
             </div>
         </div>
     </div>
+    <h2>ヘルプ</h2>
+    ・true :: Bool<br>
+    　　値trueを返す関数<br><br>
+    ・false :: Bool<br>
+    　　値falseを返す関数<br><br>
+    ・min :: Num a b => a -> b -> a or b<br>
+    　　二つ数値を受け取り、小さい方を返す関数<br><br>
+    ・max :: Num a b => a -> b-> a or b<br>
+    　　二つ数値を受け取り、大きい方を返す関数<br><br>
+    ・minus :: Num a => a -> a<br>
+    　　aの符号を反転して返す関数<br><br>
+    ・if :: Bool -> a-> b -> a or b<br>
+    　　真偽値がtrueならaを返し、そうでないならbを返す関数<br><br>
+    ・equal :: Eq a b => a -> b-> Bool<br>
+    　　a==bの結果を返す関数<br><br>
+    ・flip :: (a -> b-> c) -> b -> a<br>
+    　　関数に渡す二つの引数を反転させる関数<br><br>
+    ・add :: Num a b c => a -> b -> c<br>
+    　　a+bの結果を返す関数<br><br>
+    ・sub :: Num a b c => a -> b -> c<br>
+    　　a-bの結果を返す関数<br><br>
+    ・mul :: Num a b c => a -> b-> c<br>
+    　　a*bの結果を返す関数<br><br>
+    ・div :: Num a b c => a -> b -> c<br>
+    　　a/bの結果を返す関数<br><br>
+    ・pi : :Double <br>
+    　　πを返す関数<br><br>
+    ・abs :: Num a b => a -> b<br>
+    　　絶対値を返す関数<br><br>
+    ・pow :: Num x y z => x -> y -> z<br>
+    　　xのy乗を返す関数<br><br>
+    ・sin :: Num x y => x -> y<br>
+    　　ラジアン値xを受け取り、sinを返す関数<br><br>
+    ・cos :: Num x y => x -> y<br>
+    　　ラジアン値xを受け取り、cosを返す関数<br><br>
+    ・tan :: Num x y => x -> y<br>
+    　　ラジアン値xを受け取り、tanを返す関数<br><br>
 </body>
 
 </html>

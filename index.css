@@ -1,4 +1,4 @@
-body{
+#mainDiv{
     background-color:bisque;
     text-align:center;
     width: 100vw;
@@ -29,8 +29,8 @@ body{
 
 .textarea {
     box-shadow:1px 1px 3px 0px rgba(70, 70, 70, 10);
-    width: 45vw;
-    height: 50vh;
+    width: 40vw;
+    height: 25vh;
     font-size:23px;
     color: black;
     font-weight:bold;
