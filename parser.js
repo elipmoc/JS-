@@ -40,6 +40,22 @@ class BinaryExpr {
     get needArgs() { return 0; }
 }
 
+//新提案の二項演算子を表す式
+class new_BinaryExpr {
+    constructor(left, right, opInfo) {
+        this._left = left;
+        this._right = right;
+        this._opInfo = opInfo;
+    }
+    result() {
+        var leftValue = this._left.result();
+        var rightValue = this._right.result();
+        return this._opInfo["body"](leftValue, rightValue);
+    }
+
+    get needArgs() { return 0; }
+}
+
 //関数型
 //引数の数が合うまで遅延評価
 class FuncType {
@@ -143,6 +159,10 @@ class Parser {
             }
         }
         return result;
+    }
+
+    visitBinaryExpr() {
+
     }
 
     visitAddExpr() {
