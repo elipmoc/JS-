@@ -139,6 +139,7 @@ class Parser {
         this._tokenList = tokenList;
         this._nowIndex = 0;
         this._intrinsicFuncTable = new IntrinsicFuncTable();
+        this._operatorTable = new OperatorTable();
     }
 
     doParse() {
