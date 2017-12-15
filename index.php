@@ -18,7 +18,7 @@ $app->register(new Herrera\Pdo\PdoServiceProvider(),
 );
 $stmt = $app["pdo"]->query("SELECT count FROM hoge");
 while($row = $stmt -> fetch(PDO::FETCH_ASSOC)) {
-    echo $rom["count"];
+    echo $row["count"];
     echo "<br>";
 }
 //echo file_get_contents("index.html");
