@@ -17,5 +17,5 @@ $app->register(new Herrera\Pdo\PdoServiceProvider(),
                )
 );
 
-var_dump($app['pdo']);
+var_dump($app['pdo']->exec("select * from hoge"));
 echo file_get_contents("index.html");
