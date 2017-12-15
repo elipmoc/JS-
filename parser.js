@@ -50,7 +50,6 @@ class FuncType {
             this._argList = argList.concat();
         else
             this._argList = new Array();
-        console.log(this._argList);
     }
 
     Do(arg) {
@@ -77,7 +76,6 @@ class FuncType {
 class FuncCallExpr {
     //（関数型,引数一つ）
     constructor(funcType, arg) {
-        console.log("create");
         this._funcType = funcType;
         this._arg = arg;
     }
@@ -205,12 +203,6 @@ class Parser {
         if (result.isSuccess()) {
 
             while (true) {
-                if (("needArgs" in result.expr) == false) {
-                    if (!this.visitFuncName().isSuccess()) break;
-                    result.error("関数ではないものに引数を渡そうとしました");
-                    this._nowIndex = checkPoint;
-                    return result;
-                }
 
                 let func = result.expr.result();
                 if (
@@ -225,12 +217,6 @@ class Parser {
                 
                 let argResult = this.visitFuncName();
                 if (argResult.isSuccess()) {
-                    console.log("arg send");
-                   /* if (result.expr.needArgs == 1) {
-                        result.error("関数に渡す引数の数が不正です");
-                        this._nowIndex = checkPoint;
-                        return result;
-                    }*/
                     result.success(new FuncCallExpr(func, argResult.expr))
                 }
                 else {
