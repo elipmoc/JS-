@@ -21,6 +21,17 @@ class IntrinsicFuncTable {
                 , "abs": { "body": (a) => { return Math.abs(a[0]); }, "args": 1 }
                 , "true": { "body": (a) => { return true; }, "args": 0 }
                 , "false": { "body": (a) => { return false; }, "args": 0 }
+                , "merge": {
+                    "body": (a) => {
+                        return new
+                            FuncType(
+                                {
+                                    "body": (b) => { return a[0].Do(a[1].Do(b[0])); }, "args": 1
+                                }
+                            );
+                    }
+                    , "args": 2
+                }
             }
     }
 
