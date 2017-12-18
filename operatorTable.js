@@ -3,10 +3,10 @@ class OperatorTable {
     constructor() {
         this._opArray = {
 
-            "+": { "body": (a, b) => { return a + b; }, "priority":0,"infix":"left"}
-            , "-": { "body": (a, b) => { return a - b; }, "priority": 0, "infix": "left" }
-            , "*": { "body": (a, b) => { return a * b; }, "priority": 1, "infix": "left" }
-            , "/": { "body": (a, b) => { return a / b; }, "priority": 2, "infix": "left" }
+            "+": { "body": (a, b) => { return a + b; }, "infix":"left"}
+            , "-": { "body": (a, b) => { return a - b; }, "infix": "left" }
+            , "*": { "body": (a, b) => { return a * b; },  "infix": "left" }
+            , "/": { "body": (a, b) => { return a / b; },  "infix": "left" }
         }
     }
 
