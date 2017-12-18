@@ -2,8 +2,12 @@
 class OperatorTable {
     constructor() {
         this._opArray = [
-
-            {"name" : "+" ,"body": (a, b) => { return a + b; }, "infix":"left"}
+            {
+                "name": "$", "body": (a, b) => {
+                    return a.Do(b);
+                }, "infix": "right"
+            }
+            ,{"name" : "+" ,"body": (a, b) => { return a + b; }, "infix":"left"}
             , {"name" : "-" , "body": (a, b) => { return a - b; }, "infix": "left" }
             , {"name" : "*" , "body": (a, b) => { return a * b; }, "infix": "left" }
             , { "name": "/", "body": (a, b) => { return a / b; }, "infix": "left" }
@@ -15,7 +19,7 @@ class OperatorTable {
                                 "body": (c) => { return a.Do(b.Do(c[0])); }, "args": 1
                             }
                         );
-                }, "infix": "left"
+                }, "infix": "right"
             }
         ]
     }

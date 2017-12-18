@@ -1,7 +1,7 @@
 ﻿/*
 BNF
 
-expr
+Binaryexpr
     : addExpr
     ;
 
@@ -38,7 +38,7 @@ num
     ;
 
 wrapExpr
-    : '(' , expr , ')'
+    : '(' , binaryExpr , ')'
     ;
 */
 
