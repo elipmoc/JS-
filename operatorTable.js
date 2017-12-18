@@ -6,7 +6,17 @@ class OperatorTable {
             {"name" : "+" ,"body": (a, b) => { return a + b; }, "infix":"left"}
             , {"name" : "-" , "body": (a, b) => { return a - b; }, "infix": "left" }
             , {"name" : "*" , "body": (a, b) => { return a * b; }, "infix": "left" }
-            , {"name" : "/" , "body": (a, b) => { return a / b; }, "infix": "left" }
+            , { "name": "/", "body": (a, b) => { return a / b; }, "infix": "left" }
+            ,{
+                "name": ".", "body": (a,b) => {
+                    return new
+                        FuncType(
+                            {
+                                "body": (c) => { return a.Do(b.Do(c[0])); }, "args": 1
+                            }
+                        );
+                }, "infix": "left"
+            }
         ]
     }
 

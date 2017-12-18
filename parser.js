@@ -152,7 +152,7 @@ class Parser {
     }
 
     visitExpr() {
-        var result = this.visitAddExpr();
+        var result = this.visitBinaryExpr(0);
         if (result.isSuccess()) {
             if (this._nowIndex < this._tokenList.length) {
                 result.error("文法エラー");
@@ -162,52 +162,24 @@ class Parser {
         return result;
     }
 
-    visitBinaryExpr() {
-
-    }
-
-    visitAddExpr() {
+    visitBinaryExpr(index) {
         var checkPoint = this._nowIndex;
-        var left = this.visitMulExpr();
+        if (index >= this._operatorTable.getLength())
+            return this.visitFuncCall();
+        var left = this.visitBinaryExpr(index+1);
         if (left.isSuccess()) {
             var nowToken = this._tokenList[this._nowIndex];
+            let op = this._operatorTable.getAt(index);
             while (this._nowIndex < this._tokenList.length &&
                 nowToken.tokenType == "op" &&
-                (nowToken.str == "+" || nowToken.str == "-")) {
-                let op = nowToken.str;
+                (nowToken.str == op["name"])) {
                 this._nowIndex++;
-                let right = this.visitMulExpr();
+                let right = this.visitBinaryExpr(index + 1);
                 if (right.isSuccess())
-                    left.success(new BinaryExpr(left.expr, right.expr, op));
+                    left.success(new new_BinaryExpr(left.expr, right.expr, op));
                 else {
                     this._nowIndex = checkPoint;
-                    right.error("演算子\"" + op + "\"の左辺に対応する値がありません");
-                    return right;
-                }
-                nowToken = this._tokenList[this._nowIndex];
-            }
-            return left;
-        }
-        this._nowIndex = checkPoint;
-        return left;
-    }
-
-    visitMulExpr() {
-        var checkPoint = this._nowIndex;
-        var left = this.visitFuncCall();
-        if (left.isSuccess()) {
-            var nowToken = this._tokenList[this._nowIndex];
-            while (this._nowIndex < this._tokenList.length &&
-                nowToken.tokenType == "op" &&
-                (nowToken.str == "*" || nowToken.str == "/" || nowToken.str == "＊" || nowToken.str == "×" || nowToken.str == "÷")) {
-                let op = nowToken.str;
-                this._nowIndex++;
-                let right = this.visitFuncCall();
-                if (right.isSuccess())
-                    left.success(new BinaryExpr(left.expr, right.expr, op));
-                else {
-                    this._nowIndex = checkPoint;
-                    right.error("演算子\"" + op + "\"の右辺に対応する値がありません");
+                    right.error("演算子\"" + op["name"] + "\"の左辺に対応する値がありません");
                     return right;
                 }
                 nowToken = this._tokenList[this._nowIndex];
@@ -282,7 +254,7 @@ class Parser {
         let checkPoint = this._nowIndex;
         if (this._tokenList[this._nowIndex].str == "(") {
             this._nowIndex++;
-            let result = this.visitAddExpr();
+            let result = this.visitBinaryExpr(0);
             if (result.isSuccess()) {
                 if (this._nowIndex < this._tokenList.length && this._tokenList[this._nowIndex].str == ")") {
                     this._nowIndex++;
