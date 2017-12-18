@@ -1,18 +1,28 @@
 ﻿//組み込み演算子を定義しておくテーブル
 class OperatorTable {
     constructor() {
-        this._opArray = {
+        this._opArray = [
 
-            "+": { "body": (a, b) => { return a + b; }, "infix":"left"}
-            , "-": { "body": (a, b) => { return a - b; }, "infix": "left" }
-            , "*": { "body": (a, b) => { return a * b; },  "infix": "left" }
-            , "/": { "body": (a, b) => { return a / b; },  "infix": "left" }
-        }
+            {"name" : "+" ,"body": (a, b) => { return a + b; }, "infix":"left"}
+            , {"name" : "-" , "body": (a, b) => { return a - b; }, "infix": "left" }
+            , {"name" : "*" , "body": (a, b) => { return a * b; }, "infix": "left" }
+            , {"name" : "/" , "body": (a, b) => { return a / b; }, "infix": "left" }
+        ]
+    }
+
+    getLength() {
+        return this._opArray.length;
+    }
+
+    getAt(index) {
+        return this._opArray[index];
     }
 
     getOpInfo(opName) {
-        if (opName in this._opArray)
-            return this._opArray[opName];
+        this._opArray.forEach((op) => { 
+            if (op["name"] == opName)
+                return op;
+            });
         return null;
     }
 }
