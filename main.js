@@ -42,12 +42,22 @@ wrapExpr
     ;
 */
 
+//トークンの出力
+function TokenListPrint(tokenList) {
+    var tokenText = document.getElementById("tokenText");
+    tokenText.value = "";
+    tokenList.forEach(item => {
+        tokenText.value += item.tokenType + " : " + item.str + "\r\n";
+    });
+}
+
 function start() {
-    let  lexerRet=lexer();
-    if (lexerRet == null) {
+    let lexerRet = lexer(document.getElementById("inputText").value);
+    TokenListPrint(lexerRet.tokenList);
+    if (lexerRet.errorFlag) {
         document.getElementById("resultText").value = "トークンエラー";
         return;
     }
-    var parser = new Parser(lexerRet);
+    var parser = new Parser(lexerRet.tokenList);
     parser.doParse();
 }

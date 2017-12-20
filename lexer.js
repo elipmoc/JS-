@@ -1,4 +1,5 @@
-﻿class Token {
+﻿//トークンのオブジェクト
+class Token {
     constructor(tokenType, str) {
         this._str = str;
         this._tokenType = tokenType;
@@ -8,8 +9,24 @@
     get tokenType() { return this._tokenType; }
 }
 
-function lexer() {
-    var inputText = document.getElementById("inputText").value;
+//字句解析が返す結果のオブジェクト
+class TokenResult {
+    constructor(errorFlag, tokenList) {
+        this._errorFlag = errorFlag;
+        this._tokenList = tokenList;
+    }
+
+    get tokenList() {
+        return this._tokenList;
+    }
+
+    get  errorFlag() {
+        return this._errorFlag;
+    }
+}
+
+//字句解析
+function lexer(inputText) {
     var tokenList = new Array();
     var numRe = /^[0-9]+/;
     var opRe = /^[\+\-\*\/÷×＊\.$\^]|^(&&)|^(\|\|)/;
@@ -49,17 +66,5 @@ function lexer() {
         }
         break;
     }
-    TokenListPrint(tokenList);
-    if (inputText.length != 0) {
-        return null;
-    }
-    return tokenList;
-}
-
-function TokenListPrint(tokenList) {
-    var tokenText = document.getElementById("tokenText");
-    tokenText.value = "";
-    tokenList.forEach(item => {
-        tokenText.value += item.tokenType + " : " + item.str + "\r\n";
-    });
+        return new TokenResult(inputText.length != 0,tokenList);
 }
