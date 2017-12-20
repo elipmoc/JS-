@@ -5,15 +5,15 @@ class OperatorTable {
             {
                 "name": "$", "body": (a, b) => {
                     return a.Do(b);
-                }, "associative": "right"
+                }, "associative": "right", "opType": "infix"
             }
-            , { "name": "||", "body": (a, b) => { return a || b; }, "associative": "left" }
-            , { "name": "&&", "body": (a, b) => { return a && b; }, "associative": "left" }
-            , { "name": "+", "body": (a, b) => { return a + b; }, "associative": "left" }
-            , { "name": "-", "body": (a, b) => { return a - b; }, "associative": "left" }
-            , { "name": "*", "body": (a, b) => { return a * b; }, "associative": "left" }
-            , { "name": "/", "body": (a, b) => { return a / b; }, "associative": "left" }
-            , { "name": "^", "body": (a, b) => { return Math.pow(a, b); }, "associative": "right" }
+            , { "name": "||", "body": (a, b) => { return a || b; }, "associative": "left", "opType": "infix" }
+            , { "name": "&&", "body": (a, b) => { return a && b; }, "associative": "left", "opType": "infix" }
+            , { "name": "+", "body": (a, b) => { return a + b; }, "associative": "left","opType":"infix" }
+            , { "name": "-", "body": (a, b) => { return a - b; }, "associative": "left", "opType": "infix" }
+            , { "name": "*", "body": (a, b) => { return a * b; }, "associative": "left", "opType": "infix" }
+            , { "name": "/", "body": (a, b) => { return a / b; }, "associative": "left", "opType": "infix" }
+            , { "name": "^", "body": (a, b) => { return Math.pow(a, b); }, "associative": "right", "opType": "infix" }
             ,{
                 "name": ".", "body": (a,b) => {
                     return new
@@ -22,7 +22,7 @@ class OperatorTable {
                                 "body": (c) => { return a.Do(b.Do(c[0])); }, "args": 1
                             }
                         );
-                }, "associative": "right"
+                }, "associative": "right", "opType": "infix"
             }
         ]
     }

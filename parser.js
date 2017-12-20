@@ -119,7 +119,7 @@ class Parser {
     }
 
     visitExpr() {
-        var result = this.visitBinaryExpr(0);
+        var result = this.visitOperatorExpr(0);
         if (result.isSuccess()) {
             if (this._nowIndex < this._tokenList.length) {
                 result.error("文法エラー");
@@ -129,18 +129,19 @@ class Parser {
         return result;
     }
 
-    visitBinaryExpr(index) {
+    visitOperatorExpr(index) {
         if (index >= this._operatorTable.getLength())
             return this.visitFuncCall();
-        if (this._operatorTable.getAt(index)["associative"] == "right")
+        let op = this._operatorTable.getAt(index);
+        if (op["associative"] == "right")
             return this.visitRightBinaryExpr(index);
-        if (this._operatorTable.getAt(index)["associative"] == "left")
+        if (op["associative"] == "left")
             return this.visitLeftBinaryExpr(index);
     }
 
     visitRightBinaryExpr(index) {
         var checkPoint = this._nowIndex;
-        var left = this.visitBinaryExpr(index+1);
+        var left = this.visitOperatorExpr(index+1);
         if (left.isSuccess()) {
             var nowToken = this._tokenList[this._nowIndex];
             let op = this._operatorTable.getAt(index);
@@ -166,7 +167,7 @@ class Parser {
 
     visitLeftBinaryExpr(index) {
         var checkPoint = this._nowIndex;
-        var left = this.visitBinaryExpr(index + 1);
+        var left = this.visitOperatorExpr(index + 1);
         if (left.isSuccess()) {
             var nowToken = this._tokenList[this._nowIndex];
             let op = this._operatorTable.getAt(index);
@@ -174,7 +175,7 @@ class Parser {
                 nowToken.tokenType == "op" &&
                 (nowToken.str == op["name"])) {
                 this._nowIndex++;
-                let right = this.visitBinaryExpr(index + 1);
+                let right = this.visitOperatorExpr(index + 1);
                 if (right.isSuccess())
                     left.success(new BinaryExpr(left.expr, right.expr, op));
                 else {
@@ -248,7 +249,7 @@ class Parser {
         let checkPoint = this._nowIndex;
         if (this._tokenList[this._nowIndex].str == "(") {
             this._nowIndex++;
-            let result = this.visitBinaryExpr(0);
+            let result = this.visitOperatorExpr(0);
             if (result.isSuccess()) {
                 if (this._nowIndex < this._tokenList.length && this._tokenList[this._nowIndex].str == ")") {
                     this._nowIndex++;
