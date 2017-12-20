@@ -108,11 +108,11 @@ class Parser {
 
     visitRightBinaryExpr(index) {
         var checkPoint = this._nowIndex;
-        var left = this.visitOperatorExpr(index+1);
+        var left = this.visitOperatorExpr(index + 1);
         if (left.isSuccess()) {
             var nowToken = this._tokenList[this._nowIndex];
             let op = this._operatorTable.getAt(index);
-            if(this._nowIndex < this._tokenList.length &&
+            if (this._nowIndex < this._tokenList.length &&
                 nowToken.tokenType == "op" &&
                 (nowToken.str == op["name"])) {
                 this._nowIndex++;
@@ -167,19 +167,19 @@ class Parser {
 
                 let func = result.expr.result();
                 if (
-                    (typeof func!="object") || 
+                    (typeof func != "object") ||
                     (("needArgs" in func) == false)
-                    ) {
+                ) {
                     if (!this.visitFuncName().isSuccess()) break;
                     result.error("関数ではないものに引数を渡そうとしました");
                     this._nowIndex = checkPoint;
                     return result;
                 }
-                
+
                 let argResult = this.visitFuncName();
                 if (argResult.isSuccess())
                     result.success(new FuncCallExpr(func, argResult.expr))
-                else 
+                else
                     break;
             }
         }
@@ -192,7 +192,7 @@ class Parser {
             result.error("");
             return result;
         }
-        
+
         if (this._tokenList[this._nowIndex].tokenType == "num") {
             result.success(new ValueExpr(Number(this._tokenList[this._nowIndex].str)));
             this._nowIndex++;
