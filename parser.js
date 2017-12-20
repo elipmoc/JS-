@@ -209,26 +209,22 @@ class Parser {
                 }
                 
                 let argResult = this.visitFuncName();
-                if (argResult.isSuccess()) {
+                if (argResult.isSuccess())
                     result.success(new FuncCallExpr(func, argResult.expr))
-                }
-                else {
+                else 
                     break;
-                }
             }
         }
         return result;
-
     }
 
     visitFuncName() {
+        let result = new Result();
         if (this._nowIndex >= this._tokenList.length) {
-            let result = new Result();
             result.error("");
             return result;
         }
-
-        let result = new Result();
+        
         if (this._tokenList[this._nowIndex].tokenType == "num") {
             result.success(new ValueExpr(Number(this._tokenList[this._nowIndex].str)));
             this._nowIndex++;
@@ -245,9 +241,7 @@ class Parser {
             result.error("定義されていない識別子です");
             return result;
         }
-        else {
-            return this.visitWrapExpr();
-        }
+        return this.visitWrapExpr();
     }
 
     visitWrapExpr() {
