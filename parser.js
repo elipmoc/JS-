@@ -1,5 +1,4 @@
-﻿
-//値を表す式
+﻿//値を表す式
 class ValueExpr {
     constructor(value) {
         this._value = value;

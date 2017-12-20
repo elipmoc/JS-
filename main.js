@@ -42,6 +42,8 @@ wrapExpr
     ;
 */
 
+load();
+
 //トークンの出力
 function TokenListPrint(tokenList) {
     let tokenText = document.getElementById("tokenText");
