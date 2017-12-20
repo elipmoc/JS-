@@ -143,12 +143,11 @@ class Parser {
     }
 
     doParse() {
-        var resultText = document.getElementById("resultText");
         let result = this.visitExpr();
         if (result.isSuccess())
-            resultText.value = result.expr.result();
+            return result.expr.result();
         else
-            resultText.value = result.msg;
+            return result.msg;
     }
 
     visitExpr() {

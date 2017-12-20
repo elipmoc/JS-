@@ -44,7 +44,7 @@ wrapExpr
 
 //トークンの出力
 function TokenListPrint(tokenList) {
-    var tokenText = document.getElementById("tokenText");
+    let tokenText = document.getElementById("tokenText");
     tokenText.value = "";
     tokenList.forEach(item => {
         tokenText.value += item.tokenType + " : " + item.str + "\r\n";
@@ -58,6 +58,7 @@ function start() {
         document.getElementById("resultText").value = "トークンエラー";
         return;
     }
-    var parser = new Parser(lexerRet.tokenList);
-    parser.doParse();
+    let parser = new Parser(lexerRet.tokenList);
+    document.getElementById("resultText").value =
+        parser.doParse();
 }
