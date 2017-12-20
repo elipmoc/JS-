@@ -132,9 +132,9 @@ class Parser {
     visitBinaryExpr(index) {
         if (index >= this._operatorTable.getLength())
             return this.visitFuncCall();
-        if(this._operatorTable.getAt(index)["infix"]=="right")
+        if (this._operatorTable.getAt(index)["associative"] == "right")
             return this.visitRightBinaryExpr(index);
-        if(this._operatorTable.getAt(index)["infix"]=="left")
+        if (this._operatorTable.getAt(index)["associative"] == "left")
             return this.visitLeftBinaryExpr(index);
     }
 
