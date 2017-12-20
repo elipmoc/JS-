@@ -8,40 +8,8 @@ class ValueExpr {
     get needArgs() { return 0; }
 }
 
-//二項演算子を表す式
-class BinaryExpr {
-    constructor(left, right, op) {
-        this._left = left;
-        this._right = right;
-        this._op = op;
-    }
-    result() {
-        var leftValue = this._left.result();
-        var rightValue = this._right.result();
-
-        switch (this._op) {
-            case "+":
-                return leftValue + rightValue;
-                break;
-            case "-":
-                return leftValue - rightValue;
-                break;
-            case "*":
-            case "×":
-            case "＊":
-                return leftValue * rightValue;
-                break;
-            case "/":
-            case "÷":
-                return leftValue / rightValue;
-                break;
-        }
-    }
-    get needArgs() { return 0; }
-}
-
 //新提案の二項演算子を表す式
-class new_BinaryExpr {
+class BinaryExpr {
     constructor(left, right, opInfo) {
         this._left = left;
         this._right = right;
@@ -182,7 +150,7 @@ class Parser {
                 this._nowIndex++;
                 let right = this.visitRightBinaryExpr(index);
                 if (right.isSuccess())
-                    left.success(new new_BinaryExpr(left.expr, right.expr, op));
+                    left.success(new BinaryExpr(left.expr, right.expr, op));
                 else {
                     this._nowIndex = checkPoint;
                     right.error("演算子\"" + op["name"] + "\"の左辺に対応する値がありません");
@@ -208,7 +176,7 @@ class Parser {
                 this._nowIndex++;
                 let right = this.visitBinaryExpr(index + 1);
                 if (right.isSuccess())
-                    left.success(new new_BinaryExpr(left.expr, right.expr, op));
+                    left.success(new BinaryExpr(left.expr, right.expr, op));
                 else {
                     this._nowIndex = checkPoint;
                     right.error("演算子\"" + op["name"] + "\"の左辺に対応する値がありません");
