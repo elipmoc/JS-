@@ -7,10 +7,13 @@ class OperatorTable {
                     return a.Do(b);
                 }, "infix": "right"
             }
-            ,{"name" : "+" ,"body": (a, b) => { return a + b; }, "infix":"left"}
+            , { "name": "||", "body": (a, b) => { return a || b; }, "infix": "left" }
+            , { "name": "&&", "body": (a, b) => { return a && b; }, "infix": "left" }
+            , { "name": "+", "body": (a, b) => { return a + b; }, "infix": "left" }
             , {"name" : "-" , "body": (a, b) => { return a - b; }, "infix": "left" }
             , {"name" : "*" , "body": (a, b) => { return a * b; }, "infix": "left" }
             , { "name": "/", "body": (a, b) => { return a / b; }, "infix": "left" }
+            , { "name": "^", "body": (a, b) => { return Math.pow(a, b); }, "infix": "right" }
             ,{
                 "name": ".", "body": (a,b) => {
                     return new

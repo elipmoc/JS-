@@ -21,6 +21,7 @@ class IntrinsicFuncTable {
                 , "abs": { "body": (a) => { return Math.abs(a[0]); }, "args": 1 }
                 , "true": { "body": (a) => { return true; }, "args": 0 }
                 , "false": { "body": (a) => { return false; }, "args": 0 }
+                , "not": { "body": (a) => { return !a[0] }, "args": 1 }
                 , "merge": {
                     "body": (a) => {
                         return new
