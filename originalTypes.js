@@ -32,7 +32,18 @@ class FuncType {
 //リスト型
 class ListType {
 
-    get() { }
-    next() { }
-    reset() { }
+    constructor(array) {
+        this._array = array;
+        this._index = -1;
+    }
+
+    get() { return this._array[this._index]; }
+
+    next() {
+        this._index++;
+        return this.array.length > this._index;
+    }
+
+    reset() { this._index = -1; }
+
 }
