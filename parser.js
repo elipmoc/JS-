@@ -209,7 +209,12 @@ class Parser {
             result.error("定義されていない識別子です");
             return result;
         }
-        return this.visitWrapExpr();
+        else {
+            result = this.visitWrapExpr();
+            if (result.isSuccess())
+                return result;
+        }
+        return this.visitArray();
     }
 
     visitWrapExpr() {
@@ -232,4 +237,47 @@ class Parser {
         this._nowIndex = checkPoint;
         return result;
     }
+
+    visitArray() {
+        let checkPoint = this._nowIndex;
+        if (this._tokenList[this._nowIndex].str == "[") {
+            this._nowIndex++;
+            let result = this.visitOperatorExpr(0);
+            if (result.isSuccess()) {
+                let array = new Array();
+                while (true) {
+                    array.push(result.expr);
+                    if (this._tokenList[this._nowIndex].str == ",")
+                        this._nowIndex++;
+                    else
+                        break;
+                    result = this.visitOperatorExpr(0);
+                    if (result.isSuccess() == false) {
+                        this._nowIndex = checkPoint;
+                        result.error("リストの式が不正です");
+                        return result;
+                    }
+                }
+                if (this._tokenList[this._nowIndex].str == "]") {
+                    this._nowIndex++;
+                    result = new Result();
+                    result.success(new ListType(array));
+                    return result;
+                }
+                result = new Result();
+                result.error("]がありません");
+                return result;
+            }
+            else {
+                if (this._tokenList[this._nowIndex].str == "]") {
+                    this._nowIndex++;
+                    result = new Result();
+                    result.success(new ListType(new Array()));
+                    return result;
+                }
+            }
+
+        }
+    }
+
 }
