@@ -37,7 +37,7 @@ class ListType {
         this._index = -1;
     }
 
-    get() { return this._array[this._index]; }
+    get() { return this._array[this._index].result(); }
 
     next() {
         this._index++;
