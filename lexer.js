@@ -20,7 +20,7 @@ class TokenResult {
         return this._tokenList;
     }
 
-    get  errorFlag() {
+    get errorFlag() {
         return this._errorFlag;
     }
 }
@@ -30,7 +30,7 @@ function lexer(inputText) {
     var tokenList = new Array();
     var numRe = /^[0-9]+/;
     var opRe = /^[\+\-\*\/÷×＊\.$\^]|^(&&)|^(\|\|)/;
-    var simbolRe = /^[()]/;
+    var simbolRe = /^[()\[\]]/;
     var identifierRe = /^[a-z]([a-z]|[A-Z]|[0-9])*/;
     var skipRe = /^ /;
     var temp;
@@ -66,5 +66,5 @@ function lexer(inputText) {
         }
         break;
     }
-        return new TokenResult(inputText.length != 0,tokenList);
+    return new TokenResult(inputText.length != 0, tokenList);
 }
