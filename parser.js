@@ -228,7 +228,7 @@ class Parser {
             return result;
         }
         let result = new Result();
-        result.error("");
+        result.error("文法エラー");
         this._nowIndex = checkPoint;
         return result;
     }
