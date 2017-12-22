@@ -1,7 +1,7 @@
 ﻿/*
 BNF
 
-Binaryexpr
+BinaryExpr
     : addExpr
     ;
 
@@ -18,7 +18,11 @@ funcCall
     ;
 
 funcName
-    : id | num |wrapExpr
+    : id | num | wrapExpr | array
+    ;
+
+array
+    : "[" , [BinaryExpr,{ "," , BinaryExpr }] , "]"
     ;
 
 addOp
