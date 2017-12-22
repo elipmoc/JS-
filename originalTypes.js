@@ -1,5 +1,5 @@
-//ŠÖ”Œ^
-//ˆø”‚Ì”‚ª‡‚¤‚Ü‚Å’x‰„•]‰¿
+//é–¢æ•°å‹
+//å¼•æ•°ã®æ•°ãŒåˆã†ã¾ã§é…å»¶è©•ä¾¡
 class FuncType {
     constructor(funcInfo, argList) {
         this._funcInfo = funcInfo;
@@ -27,4 +27,12 @@ class FuncType {
     get needArgs() {
         return this._funcInfo["args"] - this._argList.length;
     }
+}
+
+//ãƒªã‚¹ãƒˆå‹
+class ListType {
+
+    get() { }
+    next() { }
+    reset() { }
 }
