@@ -261,23 +261,27 @@ class Parser {
                 if (this._tokenList[this._nowIndex].str == "]") {
                     this._nowIndex++;
                     result = new Result();
-                    result.success(new ListType(array));
+                    result.success(new ValueExpr(new ListType(array)));
                     return result;
                 }
+                this._nowIndex = checkPoint;
                 result = new Result();
                 result.error("]がありません");
                 return result;
             }
             else {
-                if (this._tokenList[this._nowIndex].str == "]") {
+                if (this._tokenList.length > this._nowIndex && this._tokenList[this._nowIndex].str == "]") {
                     this._nowIndex++;
                     result = new Result();
-                    result.success(new ListType(new Array()));
+                    result.success(new ValueExpr(new ListType(new Array())));
                     return result;
                 }
             }
-
         }
+        this._nowIndex = checkPoint;
+        let result = new Result();
+        result.error("文法エラー");
+        return result;
     }
 
 }
