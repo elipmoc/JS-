@@ -1,4 +1,4 @@
-//‘g‚Ýž‚ÝŠÖ”‚ð“o˜^‚µ‚Ä‚¨‚­ƒe[ƒuƒ‹
+//ï¿½gï¿½Ýï¿½ï¿½ÝŠÖï¿½ï¿½ï¿½oï¿½^ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½eï¿½[ï¿½uï¿½ï¿½
 class IntrinsicFuncTable {
     constructor() {
         this._funcArray =
@@ -7,28 +7,30 @@ class IntrinsicFuncTable {
                 , "min": { "body": (a) => { return a[0] > a[1] ? a[1] : a[0] }, "args": 2 }
                 , "equal": { "body": (a) => { return a[0] == a[1] }, "args": 2 }
                 , "if": { "body": (a) => { return a[0] ? a[1] : a[2] }, "args": 3 }
-                , "flip": { "body": (a) => {return a[0].Do(a[2]).Do(a[1]); }, "args": 3 }
+                , "flip": { "body": (a) => { return a[0].Do(a[2]).Do(a[1]); }, "args": 3 }
                 , "sub": { "body": (a) => { return a[0] - a[1]; }, "args": 2 }
                 , "add": { "body": (a) => { return a[0] + a[1]; }, "args": 2 }
                 , "mul": { "body": (a) => { return a[0] * a[1]; }, "args": 2 }
                 , "div": { "body": (a) => { return a[0] / a[1]; }, "args": 2 }
                 , "minus": { "body": (a) => { return -a[0]; }, "args": 1 }
                 , "pi": { "body": (a) => { return Math.PI; }, "args": 0 }
-                , "pow": { "body": (a) => { return Math.pow(a[0],a[1]); }, "args": 2 }
+                , "pow": { "body": (a) => { return Math.pow(a[0], a[1]); }, "args": 2 }
                 , "sin": { "body": (a) => { return Math.sin(a[0]); }, "args": 1 }
                 , "cos": { "body": (a) => { return Math.cos(a[0]); }, "args": 1 }
                 , "tan": { "body": (a) => { return Math.tan(a[0]); }, "args": 1 }
                 , "abs": { "body": (a) => { return Math.abs(a[0]); }, "args": 1 }
                 , "true": { "body": (a) => { return true; }, "args": 0 }
                 , "false": { "body": (a) => { return false; }, "args": 0 }
-                , "not": { "body": (a) => { return !a[0] }, "args": 1 }
+                , "not": { "body": (a) => { return !a[0]; }, "args": 1 }
+                , "map": { "body": (a) => { return new MapListType(a[0], a[1]); }, "args": 2 }
+                , "show": { "body": (a) => { return a[0].show(); }, "args": 1 }
                 , "merge": {
                     "body": (a) => {
                         return new
                             FuncType(
-                                {
-                                    "body": (b) => { return a[0].Do(a[1].Do(b[0])); }, "args": 1
-                                }
+                            {
+                                "body": (b) => { return a[0].Do(a[1].Do(b[0])); }, "args": 1
+                            }
                             );
                     }
                     , "args": 2
@@ -38,7 +40,7 @@ class IntrinsicFuncTable {
 
     getFuncInfo(funcName) {
         if (funcName in this._funcArray)
-            return  this._funcArray[funcName];
+            return this._funcArray[funcName];
         return null;
     }
 }

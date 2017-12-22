@@ -29,6 +29,17 @@ class FuncType {
     }
 }
 
+function listShow(list) {
+    let str = "[";
+    while (list.next()) {
+        str += String(list.get()) + ",";
+    }
+    list.reset();
+    if (str.length != 1)
+        str = str.substr(0, str.length - 1);
+    return str + "]";
+}
+
 //リスト型
 class ListType {
 
@@ -41,9 +52,34 @@ class ListType {
 
     next() {
         this._index++;
-        return this.array.length > this._index;
+        return this._array.length > this._index;
     }
 
     reset() { this._index = -1; }
+
+    show() {
+        return listShow(this);
+    }
+}
+
+class MapListType {
+
+    constructor(list, f) {
+        this._list = list;
+        this._f = f;
+    }
+
+    get() { return this._f.Do(this._list.get()); }
+
+    next() {
+        return this._list.next();
+    }
+
+    reset() { this._list.reset(); }
+
+    show() {
+        return listShow(this);
+    }
+
 
 }

@@ -18,7 +18,7 @@ class OperatorTable {
                 "name": "!!", "body": (a, b) => {
                     if (b < 0)
                         return undefined;
-                    for (let i = 0; i < b; i++) {
+                    for (let i = 0; i <= b; i++) {
                         if (a.next() == false)
                             return undefined;
                     }
