@@ -84,10 +84,12 @@ class MapListType {
 
 class RangeListType {
     constructor(first, second, end) {
-        this._delta = second - first;
-        this._now = first - this._delta;
+        var firstValue = first.result();
+        var secondValue = second.result();
+        this._delta = secondValue - firstValue;
+        this._now = firstValue - this._delta;
         this._init = this._now;
-        this._end = end;
+        this._end = end.result();
     }
 
     get() { return this._now; }

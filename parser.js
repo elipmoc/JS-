@@ -242,17 +242,52 @@ class Parser {
         let checkPoint = this._nowIndex;
         if (this._tokenList[this._nowIndex].str == "[") {
             this._nowIndex++;
-            let result = this.visitArray();
-            if (result.isSuccess())
+            let result = this.visitRangeArray();
+            if (result.isSuccess() == false) {
+                result = this.visitArray();
+            }
+            if (result.isSuccess()) {
                 if (this._tokenList[this._nowIndex].str == "]") {
                     this._nowIndex++;
                     return result;
                 }
                 else
                     result.error("]がありません");
+            }
+
             this._nowIndex = checkPoint;
             return result;
         }
+        let result = new Result();
+        result.error("文法エラー");
+        return result;
+    }
+
+    visitRangeArray() {
+        let checkPoint = this._nowIndex;
+        let firstResult = this.visitOperatorExpr(0);
+        if (firstResult.isSuccess()) {
+            if (this._tokenList[this._nowIndex].str == ",") {
+                this._nowIndex++;
+                let secondResult = this.visitOperatorExpr(0);
+                if (secondResult.isSuccess()) {
+                    if (this._tokenList[this._nowIndex].str == "..") {
+                        this._nowIndex++;
+                        let endResult = this.visitOperatorExpr(0);
+                        if (endResult.isSuccess()) {
+                            let result = new Result();
+                            result.success(new ValueExpr(new RangeListType(
+                                firstResult.expr,
+                                secondResult.expr,
+                                endResult.expr
+                            )));
+                            return result;
+                        }
+                    }
+                }
+            }
+        }
+        this._nowIndex = checkPoint;
         let result = new Result();
         result.error("文法エラー");
         return result;
