@@ -18,11 +18,15 @@ funcCall
     ;
 
 funcName
-    : id | num | wrapExpr | array
+    : id | num | wrapExpr | arrayWrap
+    ;
+
+arrayWrap
+    :"[" , array, "]"
     ;
 
 array
-    : "[" , [BinaryExpr,{ "," , BinaryExpr }] , "]"
+    : [BinaryExpr,{ "," , BinaryExpr }]
     ;
 
 addOp
