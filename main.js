@@ -22,11 +22,15 @@ funcName
     ;
 
 arrayWrap
-    :"[" , array, "]"
+    :"[" , rangeArray|array, "]"
     ;
 
 array
     : [BinaryExpr,{ "," , BinaryExpr }]
+    ;
+
+rangeArray
+    : BinaryExpr,BinaryExpr..BinaryExpr
     ;
 
 addOp
