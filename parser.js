@@ -189,7 +189,7 @@ class Parser {
     visitFuncName() {
         let result = new Result();
         if (this._nowIndex >= this._tokenList.length) {
-            result.error("");
+            result.error("文法エラー");
             return result;
         }
 
@@ -214,7 +214,7 @@ class Parser {
             if (result.isSuccess())
                 return result;
         }
-        return this.visitArray();
+        return this.visitArrayWrap();
     }
 
     visitWrapExpr() {
@@ -238,48 +238,56 @@ class Parser {
         return result;
     }
 
-    visitArray() {
+    visitArrayWrap() {
         let checkPoint = this._nowIndex;
         if (this._tokenList[this._nowIndex].str == "[") {
             this._nowIndex++;
-            let result = this.visitOperatorExpr(0);
-            if (result.isSuccess()) {
-                let array = new Array();
-                while (true) {
-                    array.push(result.expr);
-                    if (this._tokenList[this._nowIndex].str == ",")
-                        this._nowIndex++;
-                    else
-                        break;
-                    result = this.visitOperatorExpr(0);
-                    if (result.isSuccess() == false) {
-                        this._nowIndex = checkPoint;
-                        result.error("リストの式が不正です");
-                        return result;
-                    }
-                }
+            let result = this.visitArray();
+            if (result.isSuccess())
                 if (this._tokenList[this._nowIndex].str == "]") {
                     this._nowIndex++;
-                    result = new Result();
-                    result.success(new ValueExpr(new ListType(array)));
                     return result;
                 }
-                this._nowIndex = checkPoint;
-                result = new Result();
-                result.error("]がありません");
-                return result;
-            }
-            else {
-                if (this._tokenList.length > this._nowIndex && this._tokenList[this._nowIndex].str == "]") {
-                    this._nowIndex++;
-                    result = new Result();
-                    result.success(new ValueExpr(new ListType(new Array())));
-                    return result;
-                }
-            }
+                else
+                    result.error("]がありません");
+            this._nowIndex = checkPoint;
+            return result;
         }
-        this._nowIndex = checkPoint;
         let result = new Result();
+        result.error("文法エラー");
+        return result;
+    }
+
+    visitArray() {
+        let checkPoint = this._nowIndex;
+        let result = this.visitOperatorExpr(0);
+        if (result.isSuccess()) {
+            let array = new Array();
+            while (true) {
+                array.push(result.expr);
+                if (this._tokenList[this._nowIndex].str == ",")
+                    this._nowIndex++;
+                else
+                    break;
+                result = this.visitOperatorExpr(0);
+                if (result.isSuccess() == false) {
+                    this._nowIndex = checkPoint;
+                    result.error("リストの式が不正です");
+                    return result;
+                }
+            }
+            result = new Result();
+            result.success(new ValueExpr(new ListType(array)));
+            return result;
+        }
+        else {
+            result = new Result();
+            result.success(new ValueExpr(new ListType(new Array())));
+            return result;
+        }
+
+        this._nowIndex = checkPoint;
+        result = new Result();
         result.error("文法エラー");
         return result;
     }
