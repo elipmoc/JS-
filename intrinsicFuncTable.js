@@ -24,6 +24,19 @@ class IntrinsicFuncTable {
                 , "not": { "body": (a) => { return !a[0]; }, "args": 1 }
                 , "map": { "body": (a) => { return new MapListType(a[0], a[1]); }, "args": 2 }
                 , "show": { "body": (a) => { return a[0].show(); }, "args": 1 }
+                , "fold": {
+                    "body": (a) => {
+                        let temp = undefined;
+                        if (a[1].next()) {
+                            temp = a[1].get();
+                            while (a[1].next()) {
+                                temp = a[0].Do(temp).Do(a[1].get());
+                            }
+                        }
+                        a[1].reset();
+                        return temp;
+                    }, "args": 2
+                }
                 , "merge": {
                     "body": (a) => {
                         return new
