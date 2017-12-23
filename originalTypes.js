@@ -80,6 +80,30 @@ class MapListType {
     show() {
         return listShow(this);
     }
+}
 
+class RangeListType {
+    constructor(first, second, end) {
+        this._delta = second - first;
+        this._now = first - this._delta;
+        this._init = this._now;
+        this._end = end;
+    }
 
+    get() { return this._now; }
+
+    next() {
+        this._now += this._delta;
+        if (this._delta > 0 && this._end >= this._now)
+            return true;
+        if (this._delta < 0 && this._end <= this._now)
+            return true;
+        return false;
+    }
+
+    reset() { this._now = this._init; }
+
+    show() {
+        return listShow(this);
+    }
 }
