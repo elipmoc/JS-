@@ -206,7 +206,7 @@ class Parser {
                 this._nowIndex++;
                 return result;
             }
-            result.error("定義されていない識別子です");
+            result.error(funcName + ":定義されていない識別子です");
             return result;
         }
         else {
