@@ -10,6 +10,7 @@ hscalc.scriptload = (scriptName) => {
 };
 
 hscalc.load = () => {
+    hscalc.scriptload("expressionTrees.js");
     hscalc.scriptload("originalTypes.js");
     hscalc.scriptload("intrinsicFuncTable.js");
     hscalc.scriptload("operatorTable.js");
