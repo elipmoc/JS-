@@ -1,5 +1,5 @@
 ﻿//トークンのオブジェクト
-class Token {
+hscalc.Token = class {
     constructor(tokenType, str) {
         this._str = str;
         this._tokenType = tokenType;
@@ -10,7 +10,7 @@ class Token {
 }
 
 //字句解析が返す結果のオブジェクト
-class TokenResult {
+hscalc.TokenResult = class {
     constructor(errorFlag, tokenList) {
         this._errorFlag = errorFlag;
         this._tokenList = tokenList;
@@ -26,7 +26,7 @@ class TokenResult {
 }
 
 //字句解析
-function lexer(inputText) {
+hscalc.lexer = (inputText) => {
     var tokenList = new Array();
     var numRe = /^[0-9]+/;
     var opRe = /^[\+\-\*\/÷×＊\.$\^]|^(&&)|^(\|\|)|^(!!)/;
@@ -38,25 +38,25 @@ function lexer(inputText) {
         temp = numRe.exec(inputText);
         if (temp != null) {
             inputText = inputText.substr(temp[0].length);
-            tokenList.push(new Token("num", temp[0]));
+            tokenList.push(new hscalc.Token("num", temp[0]));
             continue;
         }
         temp = simbolRe.exec(inputText);
         if (temp != null) {
             inputText = inputText.substr(temp[0].length);
-            tokenList.push(new Token("simbol", temp[0]));
+            tokenList.push(new hscalc.Token("simbol", temp[0]));
             continue;
         }
         temp = opRe.exec(inputText);
         if (temp != null) {
             inputText = inputText.substr(temp[0].length);
-            tokenList.push(new Token("op", temp[0]));
+            tokenList.push(new hscalc.Token("op", temp[0]));
             continue;
         }
         temp = identifierRe.exec(inputText);
         if (temp != null) {
             inputText = inputText.substr(temp[0].length);
-            tokenList.push(new Token("identifier", temp[0]));
+            tokenList.push(new hscalc.Token("identifier", temp[0]));
             continue;
         }
         temp = skipRe.exec(inputText);
@@ -66,5 +66,5 @@ function lexer(inputText) {
         }
         break;
     }
-    return new TokenResult(inputText.length != 0, tokenList);
+    return new hscalc.TokenResult(inputText.length != 0, tokenList);
 }

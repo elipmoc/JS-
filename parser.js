@@ -1,5 +1,5 @@
 ﻿//値を表す式
-class ValueExpr {
+hscalc.ValueExpr = class {
     constructor(value) {
         this._value = value;
     }
@@ -8,7 +8,7 @@ class ValueExpr {
 }
 
 //新提案の二項演算子を表す式
-class BinaryExpr {
+hscalc.BinaryExpr = class {
     constructor(left, right, opInfo) {
         this._left = left;
         this._right = right;
@@ -24,7 +24,7 @@ class BinaryExpr {
 }
 
 //関数を呼び出しを表す式
-class FuncCallExpr {
+hscalc.FuncCallExpr = class {
     //（関数型,引数一つ）
     constructor(funcType, arg) {
         this._funcType = funcType;
@@ -44,7 +44,7 @@ class FuncCallExpr {
 }
 
 //パース結果の保存するクラス
-class Result {
+hscalc.Result = class {
     constructor() {
         this._msg = "";
         this._expr = undefined;
@@ -69,12 +69,12 @@ class Result {
     }
 }
 
-class Parser {
+hscalc.Parser = class {
     constructor(tokenList) {
         this._tokenList = tokenList;
         this._nowIndex = 0;
-        this._intrinsicFuncTable = new IntrinsicFuncTable();
-        this._operatorTable = new OperatorTable();
+        this._intrinsicFuncTable = new hscalc.IntrinsicFuncTable();
+        this._operatorTable = new hscalc.OperatorTable();
     }
 
     doParse() {
@@ -118,7 +118,7 @@ class Parser {
                 this._nowIndex++;
                 let right = this.visitRightBinaryExpr(index);
                 if (right.isSuccess())
-                    left.success(new BinaryExpr(left.expr, right.expr, op));
+                    left.success(new hscalc.BinaryExpr(left.expr, right.expr, op));
                 else {
                     this._nowIndex = checkPoint;
                     right.error("演算子\"" + op["name"] + "\"の左辺に対応する値がありません");
@@ -144,7 +144,7 @@ class Parser {
                 this._nowIndex++;
                 let right = this.visitOperatorExpr(index + 1);
                 if (right.isSuccess())
-                    left.success(new BinaryExpr(left.expr, right.expr, op));
+                    left.success(new hscalc.BinaryExpr(left.expr, right.expr, op));
                 else {
                     this._nowIndex = checkPoint;
                     right.error("演算子\"" + op["name"] + "\"の左辺に対応する値がありません");
@@ -178,7 +178,7 @@ class Parser {
 
                 let argResult = this.visitFuncName();
                 if (argResult.isSuccess())
-                    result.success(new FuncCallExpr(func, argResult.expr))
+                    result.success(new hscalc.FuncCallExpr(func, argResult.expr))
                 else
                     break;
             }
@@ -187,14 +187,14 @@ class Parser {
     }
 
     visitFuncName() {
-        let result = new Result();
+        let result = new hscalc.Result();
         if (this._nowIndex >= this._tokenList.length) {
             result.error("文法エラー");
             return result;
         }
 
         if (this._tokenList[this._nowIndex].tokenType == "num") {
-            result.success(new ValueExpr(Number(this._tokenList[this._nowIndex].str)));
+            result.success(new hscalc.ValueExpr(Number(this._tokenList[this._nowIndex].str)));
             this._nowIndex++;
             return result;
         }
@@ -202,7 +202,7 @@ class Parser {
             let funcName = this._tokenList[this._nowIndex].str;
             let funcInfo = this._intrinsicFuncTable.getFuncInfo(funcName);
             if (funcInfo != null) {
-                result.success(new FuncCallExpr(new FuncType(funcInfo)));
+                result.success(new hscalc.FuncCallExpr(new hscalc.FuncType(funcInfo)));
                 this._nowIndex++;
                 return result;
             }
@@ -232,7 +232,7 @@ class Parser {
             this._nowIndex = checkPoint;
             return result;
         }
-        let result = new Result();
+        let result = new hscalc.Result();
         result.error("文法エラー");
         this._nowIndex = checkPoint;
         return result;
@@ -258,7 +258,7 @@ class Parser {
             this._nowIndex = checkPoint;
             return result;
         }
-        let result = new Result();
+        let result = new hscalc.Result();
         result.error("文法エラー");
         return result;
     }
@@ -275,8 +275,8 @@ class Parser {
                         this._nowIndex++;
                         let endResult = this.visitOperatorExpr(0);
                         if (endResult.isSuccess()) {
-                            let result = new Result();
-                            result.success(new ValueExpr(new RangeListType(
+                            let result = new hscalc.Result();
+                            result.success(new hscalc.ValueExpr(new hscalc.RangeListType(
                                 firstResult.expr,
                                 secondResult.expr,
                                 endResult.expr
@@ -288,7 +288,7 @@ class Parser {
             }
         }
         this._nowIndex = checkPoint;
-        let result = new Result();
+        let result = new hscalc.Result();
         result.error("文法エラー");
         return result;
     }
@@ -311,18 +311,18 @@ class Parser {
                     return result;
                 }
             }
-            result = new Result();
-            result.success(new ValueExpr(new ListType(array)));
+            result = new hscalc.Result();
+            result.success(new hscalc.ValueExpr(new hscalc.ListType(array)));
             return result;
         }
         else {
-            result = new Result();
-            result.success(new ValueExpr(new ListType(new Array())));
+            result = new hscalc.Result();
+            result.success(new hscalc.ValueExpr(new hscalc.ListType(new Array())));
             return result;
         }
 
         this._nowIndex = checkPoint;
-        result = new Result();
+        result = new hscalc.Result();
         result.error("文法エラー");
         return result;
     }

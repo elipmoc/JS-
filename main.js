@@ -55,7 +55,7 @@ wrapExpr
 */
 
 //hscalcライブラリのロード
-load();
+hscalc.load();
 
 //トークンの出力
 function TokenListPrint(tokenList) {
@@ -67,13 +67,13 @@ function TokenListPrint(tokenList) {
 }
 
 function start() {
-    let lexerRet = lexer(document.getElementById("inputText").value);
+    let lexerRet = hscalc.lexer(document.getElementById("inputText").value);
     TokenListPrint(lexerRet.tokenList);
     if (lexerRet.errorFlag) {
         document.getElementById("resultText").value = "トークンエラー";
         return;
     }
-    let parser = new Parser(lexerRet.tokenList);
+    let parser = new hscalc.Parser(lexerRet.tokenList);
     document.getElementById("resultText").value =
         parser.doParse();
 }

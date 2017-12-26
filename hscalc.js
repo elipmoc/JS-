@@ -1,17 +1,18 @@
 
+let hscalc = {}
 
-function scriptload(scriptName) {
+hscalc.scriptload = (scriptName) => {
     let head = document.getElementsByTagName("body");
     let script = document.createElement("script");
     script.setAttribute("type", "text/javascript");
     script.setAttribute("src", scriptName);
     head[0].insertBefore(script, head[0].firstChild);
-}
+};
 
-function load() {
-    scriptload("originalTypes.js");
-    scriptload("intrinsicFuncTable.js");
-    scriptload("operatorTable.js");
-    scriptload("lexer.js")
-    scriptload("parser.js");
-}
+hscalc.load = () => {
+    hscalc.scriptload("originalTypes.js");
+    hscalc.scriptload("intrinsicFuncTable.js");
+    hscalc.scriptload("operatorTable.js");
+    hscalc.scriptload("lexer.js")
+    hscalc.scriptload("parser.js");
+};

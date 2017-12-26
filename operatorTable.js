@@ -1,5 +1,5 @@
 ﻿//組み込み演算子を定義しておくテーブル
-class OperatorTable {
+hscalc.OperatorTable = class {
     constructor() {
         this._opArray = [
             {
@@ -28,7 +28,7 @@ class OperatorTable {
             , {
                 "name": ".", "body": (a, b) => {
                     return new
-                        FuncType(
+                        hscalc.FuncType(
                         {
                             "body": (c) => { return a.Do(b.Do(c[0])); }, "args": 1
                         }

@@ -1,6 +1,6 @@
 //関数型
 //引数の数が合うまで遅延評価
-class FuncType {
+hscalc.FuncType = class {
     constructor(funcInfo, argList) {
         this._funcInfo = funcInfo;
 
@@ -19,9 +19,9 @@ class FuncType {
             newArgList.push(arg);
             if (this._funcInfo["args"] - newArgList.length == 0)
                 return this._funcInfo["body"](newArgList);
-            return new FuncType(this._funcInfo, newArgList);
+            return new hscalc.FuncType(this._funcInfo, newArgList);
         }
-        return new FuncType(this._funcInfo, this._argList);
+        return new hscalc.FuncType(this._funcInfo, this._argList);
     }
 
     get needArgs() {
@@ -29,7 +29,7 @@ class FuncType {
     }
 }
 
-function listShow(list) {
+hscalc.listShow = (list) => {
     let str = "[";
     while (list.next()) {
         str += String(list.get()) + ",";
@@ -41,7 +41,7 @@ function listShow(list) {
 }
 
 //リスト型
-class ListType {
+hscalc.ListType = class {
 
     constructor(array) {
         this._array = array;
@@ -58,12 +58,11 @@ class ListType {
     reset() { this._index = -1; }
 
     show() {
-        return listShow(this);
+        return hscalc.listShow(this);
     }
 }
 
-class MapListType {
-
+hscalc.MapListType = class {
     constructor(list, f) {
         this._list = list;
         this._f = f;
@@ -78,11 +77,11 @@ class MapListType {
     reset() { this._list.reset(); }
 
     show() {
-        return listShow(this);
+        return hscalc.listShow(this);
     }
 }
 
-class RangeListType {
+hscalc.RangeListType = class {
     constructor(first, second, end) {
         var firstValue = first.result();
         var secondValue = second.result();
@@ -106,6 +105,6 @@ class RangeListType {
     reset() { this._now = this._init; }
 
     show() {
-        return listShow(this);
+        return hscalc.listShow(this);
     }
 }

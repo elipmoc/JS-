@@ -1,5 +1,5 @@
 //�g�ݍ��݊֐���o�^���Ă����e�[�u��
-class IntrinsicFuncTable {
+hscalc.IntrinsicFuncTable = class {
     constructor() {
         this._funcArray =
             {
@@ -25,7 +25,7 @@ class IntrinsicFuncTable {
                 , "true": { "body": (a) => { return true; }, "args": 0 }
                 , "false": { "body": (a) => { return false; }, "args": 0 }
                 , "not": { "body": (a) => { return !a[0]; }, "args": 1 }
-                , "map": { "body": (a) => { return new MapListType(a[0], a[1]); }, "args": 2 }
+                , "map": { "body": (a) => { return new hscalc.MapListType(a[0], a[1]); }, "args": 2 }
                 , "show": { "body": (a) => { return a[0].show(); }, "args": 1 }
                 , "fold": {
                     "body": (a) => {
@@ -43,7 +43,7 @@ class IntrinsicFuncTable {
                 , "merge": {
                     "body": (a) => {
                         return new
-                            FuncType(
+                            hscalc.FuncType(
                             {
                                 "body": (b) => { return a[0].Do(a[1].Do(b[0])); }, "args": 1
                             }
