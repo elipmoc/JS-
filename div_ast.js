@@ -1,6 +1,6 @@
 
 //型Kindを保持するクラス
-class Kind {
+hscalc.Kind = class {
     constructor(left, right) {
         this._left = left;
         this._right = right;
@@ -11,7 +11,7 @@ class Kind {
 
 
 //数値を表すAST 
-class ValueAst {
+hscalc.ValueAst = class {
 
 
     constructor(value) {
@@ -23,29 +23,29 @@ class ValueAst {
 }
 
 //関数名を表すAST
-class FuncNameAst {
+hscalc.FuncNameAst = class {
     get Kind() { }
 }
 
 //関数に値を1つ適応するAST
-class FuncCallAst {
+hscalc.FuncCallAst = class {
     get Kind() { }
 }
 
 //二項演算子のAST
-class BinaryAst {
+hscalc.BinaryAst = class {
     get Kind() { }
 
 }
 
 //リストを表すAST
-class ListAst {
+hscalc.ListAst = class {
     get Kind() { }
 
 }
 
 //数列表記（範囲指定）リストを表すAST
-class RangeListAst {
+hscalc.RangeListAst = class {
     get Kind() { }
 
 }
