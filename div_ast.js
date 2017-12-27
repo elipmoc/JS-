@@ -1,10 +1,25 @@
+/*
+haskellならこうかけるのに！！！！
+data Kind = AnyType|WrapKind Kind | Kind Kind Kind
+*/
+
 
 //何かの型を表すクラス
 hscalc.AnyType = class {
-    constructor(left, right) {
+    constructor() {
     }
-
     isAnyType() { return true; }
+    isWrapKind() { return false; }
+}
+
+//kindを（）したもの
+hscalc.WrapKind = class {
+    constructor(kind) {
+        this._kind = kind;
+    }
+    isAnyType() { return false; }
+    isWrapKind() { return true; }
+    get kind() { return kind; }
 }
 
 //型Kindを保持するクラス
@@ -14,21 +29,29 @@ hscalc.Kind = class {
         this._right = right;
     }
     isAnyType() { return false; }
+    isWrapKind() { return false; }
     get left() { return this._left; }
     get right() { return this._right; }
 }
 
 //Kindのleftを落とす
 hscalc.dropLeftKind = (kind) => {
-    if (kind.right.isAnyType()) {
+    if (kind.right.isAnyType() || kind.right.isWrapKind()) {
         return kind.right;
     }
     new hscalc.kind(kind.right.left, kind.right.right);
 }
 
-//KindまたはAnyTypeを結合して新たなKindを生成する
+//KindまたはAnyTypeまたはWrapKindを結合して新たなKindを生成する
 hscalc.concatKindOrType = (a, b) => {
     return new hscalc.kind(a, b);
+}
+
+//aからbに関数適応する
+hscalc.applyKind = (a, b) => {
+    if (b.isAnyType())
+        return undefined;
+
 }
 
 //数値を表すAST 
