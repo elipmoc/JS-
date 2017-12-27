@@ -34,23 +34,57 @@ hscalc.Kind = class {
     get right() { return this._right; }
 }
 
+/*
 //Kindのleftを落とす
 hscalc.dropLeftKind = (kind) => {
     if (kind.right.isAnyType() || kind.right.isWrapKind()) {
         return kind.right;
     }
     new hscalc.kind(kind.right.left, kind.right.right);
-}
+}*/
 
 //KindまたはAnyTypeまたはWrapKindを結合して新たなKindを生成する
 hscalc.concatKindOrType = (a, b) => {
     return new hscalc.kind(a, b);
 }
 
-//aからbに関数適応する
+//aとbがマッチするかチェックする
+hscalc.matchCheck = (a, b) => {
+    if (a.isAnyType()) {
+        if (b.isAnyType())
+            return true;
+        if (b.isWrapKind()) {
+            return hscalc.matchCheck(a, b.kind);
+        }
+        return false;
+    }
+
+    if (a.isWrapKind()) {
+        if (b.isAnyType())
+            return true;
+        if (b.isWrapKind()) {
+            return hscalc.matchCheck(a.kind, b.kind);
+        }
+        hscalc.matchCheck(a.kind, b);
+    }
+
+    if (b.isAnyType())
+        return true;
+    if (b.isWrapKind())
+        return hscalc.matchCheck(a, b.kind);
+    return hscalc.matchCheck(a.left, b.left) && hscalc.matchCheck(a.right, b.right);
+}
+
+//aをbに関数適応した時の結果の型を得る
 hscalc.applyKind = (a, b) => {
     if (b.isAnyType())
         return undefined;
+    if (b.isWrapKind())
+        return hscalc.applyKind(a, b.kind);
+
+    if (hscalc.matchCheck(a, b.left)) {
+        return b.right;
+    }
 
 }
 
