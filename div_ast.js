@@ -12,10 +12,14 @@ class Kind {
 
 //数値を表すAST 
 class ValueAst {
-    constructor() {
+
+
+    constructor(value) {
+        this._value = value;
         this._kind = new Kind();
     }
     get Kind() { return this._kind; }
+    get Value() { return this._value; }
 }
 
 //関数名を表すAST
