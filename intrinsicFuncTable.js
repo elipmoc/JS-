@@ -27,6 +27,7 @@ hscalc.IntrinsicFuncTable = class {
                 , "not": { "body": (a) => { return !a[0]; }, "args": 1 }
                 , "map": { "body": (a) => { return new hscalc.MapListType(a[0], a[1]); }, "args": 2 }
                 , "show": { "body": (a) => { return a[0].show(); }, "args": 1 }
+                , "alert": { "body": (a) => { return alert(a[0]); }, "args": 1 }
                 , "fold": {
                     "body": (a) => {
                         let temp = undefined;
