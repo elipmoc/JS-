@@ -1,7 +1,7 @@
 ﻿/*
 BNF
 
-BinaryExpr
+binaryExpr
     : addExpr
     ;
 
@@ -18,7 +18,11 @@ funcCall
     ;
 
 funcName
-    : id | num | wrapExpr | arrayWrap
+    : id | num | wrapExpr | arrayWrap | lambda
+    ;
+
+lambda
+    : "\" , {id} , "->" , binaryExpr
     ;
 
 arrayWrap
@@ -26,11 +30,11 @@ arrayWrap
     ;
 
 array
-    : [BinaryExpr,{ "," , BinaryExpr }]
+    : [binaryExpr,{ "," , binaryExpr }]
     ;
 
 rangeArray
-    : BinaryExpr,BinaryExpr..BinaryExpr
+    : binaryExpr,binaryExpr..binaryExpr
     ;
 
 addOp
