@@ -44,7 +44,7 @@ hscalc.lexer = (inputText) => {
         temp = simbolRe.exec(inputText);
         if (temp != null) {
             inputText = inputText.substr(temp[0].length);
-            tokenList.push(new hscalc.Token("simbol", temp[0]));
+            tokenList.push(new hscalc.Token("symbol", temp[0]));
             continue;
         }
         temp = opRe.exec(inputText);
