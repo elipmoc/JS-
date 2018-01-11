@@ -26,15 +26,15 @@ hscalc.BinaryExpr = class {
 //関数を呼び出しを表す式
 hscalc.FuncCallExpr = class {
     //（関数型,引数一つ）
-    constructor(funcType, arg) {
-        this._funcType = funcType;
+    constructor(funcExpr, arg) {
+        this._funcExpr = funcExpr;
         this._arg = arg;
     }
     result() {
         if (this._arg != undefined) {
-            return this._funcType.Do(this._arg.result());
+            return this._funcExpr.result().Do(this._arg.result());
         }
-        return this._funcType.Do();
+        return this._funcExpr.result().Do();
 
     }
 

@@ -121,7 +121,7 @@ hscalc.Parser = class {
 
             while (true) {
 
-                let func = result.expr.result();
+                let funcExpr = result.expr;
                 /* if (
                      (typeof func != "object") ||
                      (("needArgs" in func) == false)
@@ -134,7 +134,7 @@ hscalc.Parser = class {
 
                 let argResult = this.visitFuncName();
                 if (argResult.isSuccess())
-                    result.success(new hscalc.FuncCallExpr(func, argResult.expr))
+                    result.success(new hscalc.FuncCallExpr(funcExpr, argResult.expr))
                 else
                     break;
             }
@@ -158,7 +158,7 @@ hscalc.Parser = class {
             let funcName = this._tokenList[this._nowIndex].str;
             let funcInfo = this._intrinsicFuncTable.getFuncInfo(funcName);
             if (funcInfo != null) {
-                result.success(new hscalc.FuncCallExpr(new hscalc.FuncType(funcInfo)));
+                result.success(new hscalc.FuncCallExpr(new hscalc.ValueExpr(new hscalc.FuncType(funcInfo))));
                 this._nowIndex++;
                 return result;
             }
