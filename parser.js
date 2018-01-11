@@ -122,15 +122,15 @@ hscalc.Parser = class {
             while (true) {
 
                 let func = result.expr.result();
-                if (
-                    (typeof func != "object") ||
-                    (("needArgs" in func) == false)
-                ) {
-                    if (!this.visitFuncName().isSuccess()) break;
-                    result.error("関数ではないものに引数を渡そうとしました");
-                    this._nowIndex = checkPoint;
-                    return result;
-                }
+                /* if (
+                     (typeof func != "object") ||
+                     (("needArgs" in func) == false)
+                 ) {
+                     if (!this.visitFuncName().isSuccess()) break;
+                     result.error("関数ではないものに引数を渡そうとしました");
+                     this._nowIndex = checkPoint;
+                     return result;
+                 }*/
 
                 let argResult = this.visitFuncName();
                 if (argResult.isSuccess())
