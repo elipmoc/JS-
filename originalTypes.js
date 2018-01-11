@@ -1,3 +1,12 @@
+//変数を表す型
+hscalc.VariableType = class {
+    constructor() {
+        this._value;
+    }
+    setValue(value) { this._value = value; }
+    getValue() { return this._value; }
+};
+
 //関数型
 //引数の数が合うまで遅延評価
 hscalc.FuncType = class {

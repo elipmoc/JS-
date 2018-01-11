@@ -31,6 +31,7 @@ hscalc.Parser = class {
         this._nowIndex = 0;
         this._intrinsicFuncTable = new hscalc.IntrinsicFuncTable();
         this._operatorTable = new hscalc.OperatorTable();
+        this._variableTable = new hscalc.VariableTable();
     }
 
     doParse() {
@@ -154,23 +155,38 @@ hscalc.Parser = class {
             this._nowIndex++;
             return result;
         }
-        else if (this._tokenList[this._nowIndex].tokenType == "identifier") {
-            let funcName = this._tokenList[this._nowIndex].str;
-            let funcInfo = this._intrinsicFuncTable.getFuncInfo(funcName);
+
+        if (this._tokenList[this._nowIndex].tokenType == "identifier") {
+            let id = this._tokenList[this._nowIndex].str;
+            let funcInfo = this._intrinsicFuncTable.getFuncInfo(id);
             if (funcInfo != null) {
                 result.success(new hscalc.FuncCallExpr(new hscalc.ValueExpr(new hscalc.FuncType(funcInfo))));
                 this._nowIndex++;
                 return result;
             }
-            result.error(funcName + ":定義されていない識別子です");
+            let variableType = this._variableTable.get(id);
+            if (variableType) {
+                funcInfo =
+                    {
+                        "body": (a) => {
+                            return variableType.getValue();
+                        }, "args": 0
+                    };
+                result.success(new hscalc.FuncCallExpr(new hscalc.ValueExpr(new hscalc.FuncType(funcInfo))));
+                this._nowIndex++;
+                return result;
+            }
+            result.error(id + ":定義されていない識別子です");
             return result;
         }
-        else {
-            result = this.visitWrapExpr();
-            if (result.isSuccess())
-                return result;
-        }
-        return this.visitArrayWrap();
+        result = this.visitWrapExpr();
+        if (result.isSuccess())
+            return result;
+        result = this.visitArrayWrap();
+        if (result.isSuccess())
+            return result;
+        return this.visitLambda();
+
     }
 
     visitWrapExpr() {
@@ -283,4 +299,41 @@ hscalc.Parser = class {
         return result;
     }
 
+    visitLambda() {
+        let checkPoint = this._nowIndex;
+        if (this._tokenList[this._nowIndex].str == "\\") {
+            this._nowIndex++;
+            if (this._tokenList[this._nowIndex].tokenType == "identifier") {
+                if (this._intrinsicFuncTable.getFuncInfo(this._tokenList[this._nowIndex]) == null) {
+                    let variableName = this._tokenList[this._nowIndex].str;
+                    this._nowIndex++;
+                    if (this._tokenList[this._nowIndex].str == "->") {
+                        this._nowIndex++;
+                        this._variableTable.pushEnvironment();
+                        let variableType = new hscalc.VariableType();
+                        this._variableTable.regist(variableName, variableType);
+                        let result = this.visitOperatorExpr(0);
+                        this._variableTable.popEnvironment();
+                        if (result.isSuccess()) {
+                            let bodyExpr = result.expr;
+                            let funcInfo =
+                                {
+                                    "body": (a) => {
+                                        variableType.setValue(a[0]);
+                                        let value = bodyExpr.result();
+                                        return value;
+                                    }, "args": 1
+                                };
+                            result.success(new hscalc.ValueExpr(new hscalc.FuncType(funcInfo)));
+                            return result;
+                        }
+                    }
+                }
+            }
+        }
+        this._nowIndex = checkPoint;
+        let result = new hscalc.Result();
+        result.error("lambdaエラー");
+        return result;
+    }
 }

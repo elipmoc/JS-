@@ -5,7 +5,7 @@ hscalc.ValueExpr = class {
     }
     result() { return this._value; }
     get needArgs() { return 0; }
-}
+};
 
 //新提案の二項演算子を表す式
 hscalc.BinaryExpr = class {
