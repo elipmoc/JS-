@@ -3,7 +3,7 @@ hscalc.ValueExpr = class {
     constructor(value) {
         this._value = value;
     }
-    result() { return this._value; }
+    result(environment) { return this._value; }
     get needArgs() { return 0; }
 };
 
@@ -14,13 +14,40 @@ hscalc.BinaryExpr = class {
         this._right = right;
         this._opInfo = opInfo;
     }
-    result() {
-        var leftValue = this._left.result();
-        var rightValue = this._right.result();
+    result(environment) {
+        var leftValue = this._left.result(environment);
+        var rightValue = this._right.result(environment);
         return this._opInfo["body"](leftValue, rightValue);
     }
 
     get needArgs() { return 0; }
+}
+
+//変数を表す式
+hscalc.VariableExpr = class {
+    constructor(name) {
+        this._name = name;
+    }
+    result(environment) {
+        return environment.getState(this._name);
+    }
+}
+
+//ラムダ式を表す式
+hscalc.LambdaExpr = class {
+    constructor(name, bodyExpr) {
+        this._bodyExpr = bodyExpr;
+        this._name = name;
+    }
+    result(environment) {
+        let funcInfo =
+            {
+                "body": (a) => {
+                    return this._bodyExpr.result(environment.setState(this._name, a[0]));
+                }, "args": 1
+            };
+        return new hscalc.FuncType(funcInfo);
+    }
 }
 
 //関数を呼び出しを表す式
@@ -30,11 +57,11 @@ hscalc.FuncCallExpr = class {
         this._funcExpr = funcExpr;
         this._arg = arg;
     }
-    result() {
+    result(environment) {
         if (this._arg != undefined) {
-            return this._funcExpr.result().Do(this._arg.result());
+            return this._funcExpr.result(environment).Do(this._arg.result(environment));
         }
-        return this._funcExpr.result().Do();
+        return this._funcExpr.result(environment).Do();
 
     }
 

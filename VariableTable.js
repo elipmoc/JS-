@@ -15,3 +15,24 @@ hscalc.VariableTable = class {
     pushEnvironment() { this._environment.push({}); }
     popEnvironment() { this._environment.pop(); }
 };
+
+hscalc.Environment = class {
+    constructor(states) {
+        if (states == undefined)
+            this._states = {};
+        else
+            this._states = states;
+    }
+
+    getState(name) {
+        return this._states[name];
+    }
+
+    setState(name, value) {
+        let newStates = {};
+        Object.assign(newStates, this._states);
+        newStates[name] = value;
+        return new hscalc.Environment(newStates);
+    }
+
+}

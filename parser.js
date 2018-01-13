@@ -37,7 +37,7 @@ hscalc.Parser = class {
     doParse() {
         let result = this.visitExpr();
         if (result.isSuccess())
-            return result.expr.result();
+            return result.expr.result(new hscalc.Environment());
         else
             return result.msg;
     }
@@ -166,13 +166,7 @@ hscalc.Parser = class {
             }
             let variableType = this._variableTable.get(id);
             if (variableType) {
-                funcInfo =
-                    {
-                        "body": (a) => {
-                            return variableType.getValue();
-                        }, "args": 0
-                    };
-                result.success(new hscalc.FuncCallExpr(new hscalc.ValueExpr(new hscalc.FuncType(funcInfo))));
+                result.success(new hscalc.VariableExpr(id));
                 this._nowIndex++;
                 return result;
             }
@@ -310,21 +304,11 @@ hscalc.Parser = class {
                     if (this._tokenList[this._nowIndex].str == "->") {
                         this._nowIndex++;
                         this._variableTable.pushEnvironment();
-                        let variableType = new hscalc.VariableType();
-                        this._variableTable.regist(variableName, variableType);
+                        this._variableTable.regist(variableName, new hscalc.VariableType());
                         let result = this.visitOperatorExpr(0);
                         this._variableTable.popEnvironment();
                         if (result.isSuccess()) {
-                            let bodyExpr = result.expr;
-                            let funcInfo =
-                                {
-                                    "body": (a) => {
-                                        variableType.setValue(a[0]);
-                                        let value = bodyExpr.result();
-                                        return value;
-                                    }, "args": 1
-                                };
-                            result.success(new hscalc.ValueExpr(new hscalc.FuncType(funcInfo)));
+                            result.success(new hscalc.LambdaExpr(variableName, result.expr));
                             return result;
                         }
                     }
