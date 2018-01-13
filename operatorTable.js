@@ -7,6 +7,8 @@ hscalc.OperatorTable = class {
                     return a.Do(b);
                 }, "associative": "right"
             }
+            , { "name": "<|", "body": (a, b) => { return a.Do(b); }, "associative": "right" }
+            , { "name": "|>", "body": (a, b) => { return b.Do(a); }, "associative": "left" }
             , { "name": "||", "body": (a, b) => { return a || b; }, "associative": "left" }
             , { "name": "&&", "body": (a, b) => { return a && b; }, "associative": "left" }
             , { "name": "+", "body": (a, b) => { return a + b; }, "associative": "left" }
