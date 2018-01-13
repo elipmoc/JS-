@@ -297,7 +297,10 @@ hscalc.Parser = class {
         let checkPoint = this._nowIndex;
         if (this._tokenList[this._nowIndex].str == "\\") {
             this._nowIndex++;
-            if (this._tokenList[this._nowIndex].tokenType == "identifier") {
+            if (
+                this._tokenList[this._nowIndex].tokenType == "identifier"
+                || this._tokenList[this._nowIndex].str == "_"
+            ) {
                 if (this._intrinsicFuncTable.getFuncInfo(this._tokenList[this._nowIndex]) == null) {
                     let variableName = this._tokenList[this._nowIndex].str;
                     this._nowIndex++;
