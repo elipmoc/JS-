@@ -52,6 +52,23 @@ hscalc.IntrinsicFuncTable = class {
                     }
                     , "args": 2
                 }
+                , "ycomb": {
+                    "body": (f) => {
+                        return (a => a.Do(a))(
+                            new hscalc.FuncType(
+                                {
+                                    "body": a => f[0].Do(
+                                        new hscalc.FuncType(
+                                            {
+                                                "body": (x) => { return a[0].Do(a[0]).Do(x[0]); }, "args": 1
+                                            }
+                                        )
+                                    ),
+                                    "args": 1
+                                }));
+                    }
+                    , "args": 1
+                }
             }
     }
 
