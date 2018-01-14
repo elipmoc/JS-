@@ -69,3 +69,28 @@ hscalc.FuncCallExpr = class {
         return this._funcType.needArgs;
     }
 }
+
+//Listを生成する式
+hscalc.ListExpr = class {
+    constructor(exprArray) {
+        this._exprArray = exprArray;
+    }
+    result(environment) {
+        return new hscalc.ListType(this._exprArray.map(x => x.result(environment)));
+    }
+}
+
+hscalc.RangeListExpr = class {
+    constructor(first, second, end) {
+        this._first = first;
+        this._second = second;
+        this._end = end;
+    }
+    result(environment) {
+        return new hscalc.RangeListType(
+            this._first.result(environment),
+            this._second.result(environment),
+            this._end.result(environment));
+    }
+}
+

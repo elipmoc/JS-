@@ -242,11 +242,11 @@ hscalc.Parser = class {
                         let endResult = this.visitOperatorExpr(0);
                         if (endResult.isSuccess()) {
                             let result = new hscalc.Result();
-                            result.success(new hscalc.ValueExpr(new hscalc.RangeListType(
+                            result.success(new hscalc.RangeListExpr(
                                 firstResult.expr,
                                 secondResult.expr,
                                 endResult.expr
-                            )));
+                            ));
                             return result;
                         }
                     }
@@ -278,12 +278,12 @@ hscalc.Parser = class {
                 }
             }
             result = new hscalc.Result();
-            result.success(new hscalc.ValueExpr(new hscalc.ListType(array)));
+            result.success(new hscalc.ListExpr(array));
             return result;
         }
         else {
             result = new hscalc.Result();
-            result.success(new hscalc.ValueExpr(new hscalc.ListType(new Array())));
+            result.success(new hscalc.ListExpr(new Array()));
             return result;
         }
 

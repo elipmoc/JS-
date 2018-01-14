@@ -57,7 +57,7 @@ hscalc.ListType = class {
         this._index = -1;
     }
 
-    get() { return this._array[this._index].result(); }
+    get() { return this._array[this._index]; }
 
     next() {
         this._index++;
@@ -92,12 +92,12 @@ hscalc.MapListType = class {
 
 hscalc.RangeListType = class {
     constructor(first, second, end) {
-        var firstValue = first.result();
-        var secondValue = second.result();
+        var firstValue = first;
+        var secondValue = second;
         this._delta = secondValue - firstValue;
         this._now = firstValue - this._delta;
         this._init = this._now;
-        this._end = end.result();
+        this._end = end;
     }
 
     get() { return this._now; }
