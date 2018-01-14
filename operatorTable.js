@@ -9,6 +9,58 @@ hscalc.OperatorTable = class {
             }
             , { "name": "<|", "body": (a, b) => { return a.Do(b); }, "associative": "right" }
             , { "name": "|>", "body": (a, b) => { return b.Do(a); }, "associative": "left" }
+            , {
+                "name": "<<|", "body": (b, a) => {
+                    return a.Do(b);
+                }, "associative": "left"
+            }
+            , {
+                "name": "|>>", "body": (a, b) => {
+                    return a.Do(b);
+                }, "associative": "left"
+            }
+            ,
+            {
+                "name": "<=", "body": (b, a) => {
+                    return new
+                        hscalc.FuncType(
+                        {
+                            "body": (x) => { return a.Do(x[0]).Do(b); }, "args": 1
+                        }
+                        );
+                }, "associative": "left"
+            },
+            {
+                "name": "=>", "body": (a, b) => {
+                    return new
+                        hscalc.FuncType(
+                        {
+                            "body": (x) => { return a.Do(x[0]).Do(b); }, "args": 1
+                        }
+                        );
+                }, "associative": "left"
+            }
+            ,
+            {
+                "name": "<&", "body": (b, a) => {
+                    return new
+                        hscalc.FuncType(
+                        {
+                            "body": (x) => { return x[0].Do(a).Do(b); }, "args": 1
+                        }
+                        );
+                }, "associative": "left"
+            },
+            {
+                "name": "&>", "body": (a, b) => {
+                    return new
+                        hscalc.FuncType(
+                        {
+                            "body": (x) => { return x[0].Do(a).Do(b); }, "args": 1
+                        }
+                        );
+                }, "associative": "left"
+            }
             , { "name": "||", "body": (a, b) => { return a || b; }, "associative": "left" }
             , { "name": "&&", "body": (a, b) => { return a && b; }, "associative": "left" }
             , { "name": "+", "body": (a, b) => { return a + b; }, "associative": "left" }
@@ -37,6 +89,7 @@ hscalc.OperatorTable = class {
                         );
                 }, "associative": "right"
             }
+
         ]
     }
 
