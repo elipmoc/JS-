@@ -28,7 +28,7 @@ hscalc.TokenResult = class {
 //字句解析
 hscalc.lexer = (inputText) => {
     var tokenList = new Array();
-    var numRe = /^[0-9]+/;
+    var numRe = /^[0-9]+(\.[0-9]+)?/;
     var opRe = /^[\+\-\*\/÷×＊\.$\^]|^(&&)|^(\|\|)|^(!!)|^(<<\|)|^(\|>>)|^(<\|)|^(\|>)|^(&>)|^(<&)|^(=>)|^(<=)/;
     var simbolRe = /^[()\[\],\\_]|^(\.\.)|^(->)/;
     var identifierRe = /^[a-z]([a-z]|[A-Z]|[0-9])*/;
