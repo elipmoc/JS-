@@ -12,7 +12,7 @@ hscalc.OperatorTable = class {
             , {
                 "name": "<<|", "body": (b, a) => {
                     return a.Do(b);
-                }, "associative": "left"
+                }, "associative": "right"
             }
             , {
                 "name": "|>>", "body": (a, b) => {
@@ -28,7 +28,7 @@ hscalc.OperatorTable = class {
                             "body": (x) => { return a.Do(x[0]).Do(b); }, "args": 1
                         }
                         );
-                }, "associative": "left"
+                }, "associative": "right"
             },
             {
                 "name": "=>", "body": (a, b) => {
@@ -49,7 +49,7 @@ hscalc.OperatorTable = class {
                             "body": (x) => { return x[0].Do(a).Do(b); }, "args": 1
                         }
                         );
-                }, "associative": "left"
+                }, "associative": "right"
             },
             {
                 "name": "&>", "body": (a, b) => {
