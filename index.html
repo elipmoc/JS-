@@ -29,15 +29,16 @@
         </div>
     </div>
     <h2>構文</h2>
-        <h3>・四則演算</h3>
-        　例：
+    <h3>・四則演算</h3>
+    例：
     <br>　　5+4
     <br>　　3*2
     <br>　　10/2
     <br>　　10-4
     <br>　　(10+1)*2
-    <br><h3>・関数適用</h3>
-    　関数に引数を渡す。
+    <br>
+    <h3>・関数適用</h3>
+    関数に引数を渡す。
     <br>　優先順位は演算子より高く、左結合。
     <br>　例：
     <br>　　add 5 4
@@ -45,24 +46,45 @@
     <br>　　div 10 2
     <br>　　sub 10 4
     <br>　　mul (add 10 1) 2
-    <br><h3>・リスト</h3>
-    　例:
+    <br>
+    <h3>・リスト</h3>
+    例:
     <br>　　[] 空リスト
     <br>　　[1,2,3,77,45,33]
     <br>　　[add,sub,mul,div]
-        <br><h3>・数列表記リスト</h3>
-    　例:
+    <br>　　[[],4,[add,4],[[]]] //型が違っても問題ない
+    <br>
+    <h3>・数列表記リスト</h3>
+    例:
     <br>　　[1,2..10] →[1,2,3,4,5,6,7,8,9,10]
     <br>　　[1,3..10] →[1,3,5,7,9]
-        <br><h3>・ラムダ式</h3>
-    　例:
+    <br>
+    <h3>・ラムダ式</h3>
+    例:
     <br>　　\x->x　恒等射
     <br>　　(\x->\y->x+y)4 5　add関数と等価
     <br>　　\_->810 引数を捨てる
     <h2>ヘルプ</h2>
+    <h3>・汎用系関数</h3>
     ・($) :: (a -> b) -> a -> b
+    <br> 　　haskellのアレ
     <br>
     <br> ・(.) :: (b -> c) -> (a -> b) -> a -> c
+    <br> 　　関数合成演算子
+    <br>
+    <br> ・flip :: (a -> b-> c) -> b -> a
+    <br> 　　関数に渡す二つの引数a,bを反転させる関数
+    <br>
+    <br> ・ycomb :: ???
+    <br> 　　不動点コンビネータ。λf. (λx. f (λy. x x y)) (λx. f (λy. x x y))
+    <br> 　　正確にはycombではなくzcombとするべきである。
+    <br>
+    <h3>・論理系関数</h3>
+    <br> ・if :: Bool -> a-> b -> a or b
+    <br> 　　真偽値がtrueならaを返し、そうでないならbを返す関数
+    <br>
+    <br> ・equal :: Eq a b => a -> b-> Bool
+    <br> 　　a==bの結果を返す関数
     <br>
     <br> ・true :: Bool
     <br> 　　値trueを返す関数
@@ -70,53 +92,59 @@
     <br> ・false :: Bool
     <br> 　　値falseを返す関数
     <br>
-    <br> ・min :: Num a b => a -> b -> a or b
-    <br> 　　二つ数値を受け取り、小さい方を返す関数
+    <h3>・四則演算系関数</h3>
+    <br> ・add :: a -> b -> c
+    <br> 　　a+bの結果cを返す関数
     <br>
-    <br> ・max :: Num a b => a -> b-> a or b
-    <br> 　　二つ数値を受け取り、大きい方を返す関数
+    <br> ・sub :: a -> b -> c
+    <br> 　　a-bの結果cを返す関数
     <br>
-    <br> ・minus :: Num a => a -> a
-    <br> 　　aの符号を反転して返す関数
+    <br> ・mul :: a -> b-> c
+    <br> 　　a*bの結果cを返す関数
     <br>
-    <br> ・if :: Bool -> a-> b -> a or b
-    <br> 　　真偽値がtrueならaを返し、そうでないならbを返す関数
+    <br> ・div :: a -> b -> c
+    <br> 　　a/bの結果cを返す関数
     <br>
-    <br> ・equal :: Eq a b => a -> b-> Bool
-    <br> 　　a==bの結果を返す関数
+    <br> ・minus :: a -> b
+    <br> 　　aの符号を反転して結果bを返す関数
     <br>
-    <br> ・flip :: (a -> b-> c) -> b -> a
-    <br> 　　関数に渡す二つの引数を反転させる関数
+    <h3>・リスト操作系関数</h3>
+    <br>・（!!) :: [a]->b->a
+    <br> 　　リスト[a]からｂで指定したインデックスの要素を取得する
     <br>
-    <br> ・add :: Num a b c => a -> b -> c
-    <br> 　　a+bの結果を返す関数
+    <br>・show :: [a]->String
+    <br> 　　リスト[a]を文字列に変換する。
     <br>
-    <br> ・sub :: Num a b c => a -> b -> c
-    <br> 　　a-bの結果を返す関数
+    <br>・map :: (a->b) -> [a]->[b]
+    <br> 　　リストを写像する。とりだすまで処理は遅延評価。
     <br>
-    <br> ・mul :: Num a b c => a -> b-> c
-    <br> 　　a*bの結果を返す関数
+    <br>・fold :: (a->a->a) -> [a]->a
+    <br> 　　リストを畳み込む。左結合。haskellのfoldl1と同じ。
     <br>
-    <br> ・div :: Num a b c => a -> b -> c
-    <br> 　　a/bの結果を返す関数
-    <br>
-    <br> ・pi : :Double
+    <h3>・数学系関数</h3>
+    <br> ・pi :: Double
     <br> 　　πを返す関数
     <br>
-    <br> ・abs :: Num a b => a -> b
+    <br> ・abs :: a -> b
     <br> 　　絶対値を返す関数
     <br>
-    <br> ・pow :: Num x y z => x -> y -> z
+    <br> ・pow :: x -> y -> z
     <br> 　　xのy乗を返す関数
     <br>
-    <br> ・sin :: Num x y => x -> y
+    <br> ・sin :: x -> y
     <br> 　　ラジアン値xを受け取り、sinを返す関数
     <br>
-    <br> ・cos :: Num x y => x -> y
+    <br> ・cos :: x -> y
     <br> 　　ラジアン値xを受け取り、cosを返す関数
     <br>
-    <br> ・tan :: Num x y => x -> y
+    <br> ・tan :: x -> y
     <br> 　　ラジアン値xを受け取り、tanを返す関数
+    <br>
+    <br> ・min :: a -> b -> a or b
+    <br> 　　二つ数値を受け取り、小さい方を返す関数
+    <br>
+    <br> ・max :: a -> b-> a or b
+    <br> 　　二つ数値を受け取り、大きい方を返す関数
     <br>
     <br>
 </body>
