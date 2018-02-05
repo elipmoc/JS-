@@ -90,7 +90,7 @@ hscalc.OperatorTable = class {
                 }, "associative": "right"
             }
 
-        ]
+        ];
     }
 
     getLength() {
@@ -103,9 +103,9 @@ hscalc.OperatorTable = class {
 
     getOpInfo(opName) {
         this._opArray.forEach((op) => {
-            if (op["name"] == opName)
+            if (op.name == opName)
                 return op;
         });
         return null;
     }
-}
+};

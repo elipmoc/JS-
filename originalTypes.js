@@ -21,22 +21,22 @@ hscalc.FuncType = class {
 
     Do(arg) {
         if (this.needArgs == 0) {
-            return this._funcInfo["body"](this._argList);
+            return this._funcInfo.body(this._argList);
         }
         if (arg != undefined) {
             let newArgList = this._argList.concat();
             newArgList.push(arg);
-            if (this._funcInfo["args"] - newArgList.length == 0)
-                return this._funcInfo["body"](newArgList);
+            if (this._funcInfo.args - newArgList.length == 0)
+                return this._funcInfo.body(newArgList);
             return new hscalc.FuncType(this._funcInfo, newArgList);
         }
         return new hscalc.FuncType(this._funcInfo, this._argList);
     }
 
     get needArgs() {
-        return this._funcInfo["args"] - this._argList.length;
+        return this._funcInfo.args - this._argList.length;
     }
-}
+};
 
 hscalc.listShow = (list) => {
     let str = "[";
@@ -47,7 +47,7 @@ hscalc.listShow = (list) => {
     if (str.length != 1)
         str = str.substr(0, str.length - 1);
     return str + "]";
-}
+};
 
 //リスト型
 hscalc.ListType = class {
@@ -69,7 +69,7 @@ hscalc.ListType = class {
     show() {
         return hscalc.listShow(this);
     }
-}
+};
 
 hscalc.MapListType = class {
     constructor(list, f) {
@@ -116,4 +116,4 @@ hscalc.RangeListType = class {
     show() {
         return hscalc.listShow(this);
     }
-}
+};

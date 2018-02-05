@@ -16,6 +16,7 @@ hscalc.VariableTable = class {
     popEnvironment() { this._environment.pop(); }
 };
 
+//変数のスコープを保持するクラス
 hscalc.Environment = class {
     constructor(states) {
         if (states == undefined)
@@ -34,5 +35,4 @@ hscalc.Environment = class {
         newStates[name] = value;
         return new hscalc.Environment(newStates);
     }
-
-}
+};

@@ -1,15 +1,15 @@
-//�g�ݍ��݊֐���o�^���Ă����e�[�u��
+//組み込み関数の実装
 hscalc.IntrinsicFuncTable = class {
     constructor() {
         this._funcArray =
             {
-                "max": { "body": (a) => { return a[0] > a[1] ? a[0] : a[1] }, "args": 2 }
-                , "min": { "body": (a) => { return a[0] > a[1] ? a[1] : a[0] }, "args": 2 }
+                "max": { "body": (a) => { return a[0] > a[1] ? a[0] : a[1]; }, "args": 2 }
+                , "min": { "body": (a) => { return a[0] > a[1] ? a[1] : a[0]; }, "args": 2 }
                 , "and": { "body": (a) => { return a[0] && a[1]; }, "args": 2 }
                 , "or": { "body": (a) => { return a[0] || a[1]; }, "args": 2 }
                 , "mod": { "body": (a) => { return a[0] % a[1]; }, "args": 2 }
-                , "equal": { "body": (a) => { return a[0] == a[1] }, "args": 2 }
-                , "if": { "body": (a) => { return a[0] ? a[1] : a[2] }, "args": 3 }
+                , "equal": { "body": (a) => { return a[0] == a[1]; }, "args": 2 }
+                , "if": { "body": (a) => { return a[0] ? a[1] : a[2]; }, "args": 3 }
                 , "flip": { "body": (a) => { return a[0].Do(a[2]).Do(a[1]); }, "args": 3 }
                 , "sub": { "body": (a) => { return a[0] - a[1]; }, "args": 2 }
                 , "add": { "body": (a) => { return a[0] + a[1]; }, "args": 2 }
@@ -69,7 +69,7 @@ hscalc.IntrinsicFuncTable = class {
                     }
                     , "args": 1
                 }
-            }
+            };
     }
 
     getFuncInfo(funcName) {
@@ -77,4 +77,4 @@ hscalc.IntrinsicFuncTable = class {
             return this._funcArray[funcName];
         return null;
     }
-}
+};

@@ -7,7 +7,7 @@ hscalc.Token = class {
 
     get str() { return this._str; }
     get tokenType() { return this._tokenType; }
-}
+};
 
 //字句解析が返す結果のオブジェクト
 hscalc.TokenResult = class {
@@ -23,7 +23,7 @@ hscalc.TokenResult = class {
     get errorFlag() {
         return this._errorFlag;
     }
-}
+};
 
 //字句解析
 hscalc.lexer = (inputText) => {
@@ -67,4 +67,4 @@ hscalc.lexer = (inputText) => {
         break;
     }
     return new hscalc.TokenResult(inputText.length != 0, tokenList);
-}
+};

@@ -17,11 +17,11 @@ hscalc.BinaryExpr = class {
     result(environment) {
         var leftValue = this._left.result(environment);
         var rightValue = this._right.result(environment);
-        return this._opInfo["body"](leftValue, rightValue);
+        return this._opInfo.body(leftValue, rightValue);
     }
 
     get needArgs() { return 0; }
-}
+};
 
 //変数を表す式
 hscalc.VariableExpr = class {
@@ -31,7 +31,7 @@ hscalc.VariableExpr = class {
     result(environment) {
         return environment.getState(this._name);
     }
-}
+};
 
 //ラムダ式を表す式
 hscalc.LambdaExpr = class {
@@ -48,7 +48,7 @@ hscalc.LambdaExpr = class {
             };
         return new hscalc.FuncType(funcInfo);
     }
-}
+};
 
 //関数を呼び出しを表す式
 hscalc.FuncCallExpr = class {
@@ -68,7 +68,7 @@ hscalc.FuncCallExpr = class {
     get needArgs() {
         return this._funcType.needArgs;
     }
-}
+};
 
 //Listを生成する式
 hscalc.ListExpr = class {
@@ -78,7 +78,7 @@ hscalc.ListExpr = class {
     result(environment) {
         return new hscalc.ListType(this._exprArray.map(x => x.result(environment)));
     }
-}
+};
 
 hscalc.RangeListExpr = class {
     constructor(first, second, end) {
@@ -92,5 +92,5 @@ hscalc.RangeListExpr = class {
             this._second.result(environment),
             this._end.result(environment));
     }
-}
+};
 

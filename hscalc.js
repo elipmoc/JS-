@@ -1,5 +1,5 @@
 
-let hscalc = {}
+const hscalc = {};
 
 hscalc.scriptload = (scriptName) => {
     let head = document.getElementsByTagName("body");
@@ -15,6 +15,6 @@ hscalc.load = () => {
     hscalc.scriptload("originalTypes.js");
     hscalc.scriptload("intrinsicFuncTable.js");
     hscalc.scriptload("operatorTable.js");
-    hscalc.scriptload("lexer.js")
+    hscalc.scriptload("lexer.js");
     hscalc.scriptload("parser.js");
 };

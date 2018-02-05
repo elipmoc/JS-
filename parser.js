@@ -57,9 +57,9 @@ hscalc.Parser = class {
         if (index >= this._operatorTable.getLength())
             return this.visitFuncCall();
         let op = this._operatorTable.getAt(index);
-        if (op["associative"] == "right")
+        if (op.associative == "right")
             return this.visitRightBinaryExpr(index);
-        if (op["associative"] == "left")
+        if (op.associative == "left")
             return this.visitLeftBinaryExpr(index);
     }
 
@@ -71,14 +71,14 @@ hscalc.Parser = class {
             let op = this._operatorTable.getAt(index);
             if (this._nowIndex < this._tokenList.length &&
                 nowToken.tokenType == "op" &&
-                (nowToken.str == op["name"])) {
+                (nowToken.str == op.name)) {
                 this._nowIndex++;
                 let right = this.visitRightBinaryExpr(index);
                 if (right.isSuccess())
                     left.success(new hscalc.BinaryExpr(left.expr, right.expr, op));
                 else {
                     this._nowIndex = checkPoint;
-                    right.error("演算子\"" + op["name"] + "\"の左辺に対応する値がありません");
+                    right.error("演算子\"" + op.name + "\"の左辺に対応する値がありません");
                     return right;
                 }
                 nowToken = this._tokenList[this._nowIndex];
@@ -97,14 +97,14 @@ hscalc.Parser = class {
             let op = this._operatorTable.getAt(index);
             while (this._nowIndex < this._tokenList.length &&
                 nowToken.tokenType == "op" &&
-                (nowToken.str == op["name"])) {
+                (nowToken.str == op.name)) {
                 this._nowIndex++;
                 let right = this.visitOperatorExpr(index + 1);
                 if (right.isSuccess())
                     left.success(new hscalc.BinaryExpr(left.expr, right.expr, op));
                 else {
                     this._nowIndex = checkPoint;
-                    right.error("演算子\"" + op["name"] + "\"の左辺に対応する値がありません");
+                    right.error("演算子\"" + op.name + "\"の左辺に対応する値がありません");
                     return right;
                 }
                 nowToken = this._tokenList[this._nowIndex];
@@ -121,18 +121,7 @@ hscalc.Parser = class {
         if (result.isSuccess()) {
 
             while (true) {
-
                 let funcExpr = result.expr;
-                /* if (
-                     (typeof func != "object") ||
-                     (("needArgs" in func) == false)
-                 ) {
-                     if (!this.visitFuncName().isSuccess()) break;
-                     result.error("関数ではないものに引数を渡そうとしました");
-                     this._nowIndex = checkPoint;
-                     return result;
-                 }*/
-
                 let argResult = this.visitFuncName();
                 if (argResult.isSuccess())
                     result.success(new hscalc.FuncCallExpr(funcExpr, argResult.expr))
@@ -323,4 +312,4 @@ hscalc.Parser = class {
         result.error("lambdaエラー");
         return result;
     }
-}
+};
