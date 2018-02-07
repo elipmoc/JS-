@@ -60,6 +60,7 @@ wrapExpr
 
 //hscalcライブラリのロード
 hscalc.load();
+window.onload = () => new Graph("myCanvas");
 
 //トークンの出力
 function TokenListPrint(tokenList) {
