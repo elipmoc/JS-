@@ -1,0 +1,22 @@
+{
+  "name": "js-",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/elipmoc/JS-.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/elipmoc/JS-/issues"
+  },
+  "homepage": "https://github.com/elipmoc/JS-#readme",
+  "dependencies": {
+    "@types/createjs": "0.0.29"
+  }
+}
