@@ -23,15 +23,19 @@ hscalc.Result = class {
         this._msg += msg + "\r\n";
         this._errorFlag = true;
     }
-}
+};
 
 hscalc.Parser = class {
-    constructor(tokenList) {
+    constructor(tokenList, extendIntrinsicFunc) {
         this._tokenList = tokenList;
         this._nowIndex = 0;
         this._intrinsicFuncTable = new hscalc.IntrinsicFuncTable();
         this._operatorTable = new hscalc.OperatorTable();
         this._variableTable = new hscalc.VariableTable();
+        if (extendIntrinsicFunc != undefined) {
+            this._intrinsicFuncTable.extend(extendIntrinsicFunc);
+        }
+
     }
 
     doParse() {

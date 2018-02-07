@@ -72,6 +72,12 @@ hscalc.IntrinsicFuncTable = class {
             };
     }
 
+    extend(extendIntrinsicFunc) {
+        for (let key in extendIntrinsicFunc) {
+            this._funcArray[key] = extendIntrinsicFunc[key];
+        }
+    }
+
     getFuncInfo(funcName) {
         if (funcName in this._funcArray)
             return this._funcArray[funcName];
