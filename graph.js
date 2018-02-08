@@ -23,12 +23,20 @@ class Graph {
     positionFixX(x) { return x - this._minX; }
     positionFixY(y) { return -y - this._minY; }
 
-    setMinMaxPx(minX, minY, maxX, maxY) {
+    setMinX(minX) {
         this._minX = minX;
-        this._minY = minY;
-        this._maxX = maxX;
-        this._maxY = maxY;
         this._stage.canvas.width = (this._maxX - this._minX) * this._stage.scaleX;
+    }
+    setMaxX(maxX) {
+        this._maxX = maxX;
+        this._stage.canvas.width = (this._maxX - this._minX) * this._stage.scaleX;
+    }
+    setMinX(minY) {
+        this._minY = minY;
+        this._stage.canvas.height = (this._maxY - this._minY) * this._stage.scaleY;
+    }
+    setMaxX(maxY) {
+        this._maxY = maxY;
         this._stage.canvas.height = (this._maxY - this._minY) * this._stage.scaleY;
     }
 
