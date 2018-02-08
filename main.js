@@ -65,7 +65,6 @@ window.onload = () => {
     graph =
         new Graph(document.getElementById("canvasFrame").contentWindow
             .document.getElementById("myCanvas"));
-    graph.setScale(1, 1);
 };
 
 //トークンの出力
