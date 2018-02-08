@@ -31,11 +31,11 @@ class Graph {
         this._maxX = maxX;
         this._stage.canvas.width = (this._maxX - this._minX) * this._stage.scaleX;
     }
-    setMinX(minY) {
+    setMinY(minY) {
         this._minY = minY;
         this._stage.canvas.height = (this._maxY - this._minY) * this._stage.scaleY;
     }
-    setMaxX(maxY) {
+    setMaxY(maxY) {
         this._maxY = maxY;
         this._stage.canvas.height = (this._maxY - this._minY) * this._stage.scaleY;
     }
