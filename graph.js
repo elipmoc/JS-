@@ -28,10 +28,8 @@ class Graph {
         this._minY = minY;
         this._maxX = maxX;
         this._maxY = maxY;
-        this._stage.scaleX = x;
-        this._stage.scaleY = y;
-        this._stage.canvas.width = (this._maxX - this._minX) * x;
-        this._stage.canvas.height = (this._maxY - this._minY) * y;
+        this._stage.canvas.width = (this._maxX - this._minX) * this._stage.scaleX;
+        this._stage.canvas.height = (this._maxY - this._minY) * this._stage.scaleY;
     }
 
     dot(x, y) {
