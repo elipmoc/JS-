@@ -1,6 +1,6 @@
 class Graph {
-    constructor(canvasId) {
-        this._stage = new createjs.Stage(canvasId);
+    constructor(canvas) {
+        this._stage = new createjs.Stage(canvas);
         this._minX = -this._stage.canvas.width / 2;
         this._minY = -this._stage.canvas.height / 2;
         this._maxX = this._stage.canvas.width / 2;
