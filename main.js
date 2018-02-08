@@ -71,6 +71,26 @@ window.onload = () => {
         graph.setScale(scale, scale);
         graph.update();
     };
+    const minXTextBox = document.getElementById("minXTextBox");
+    const maxXTextBox = document.getElementById("maxXTextBox");
+    const minYTextBox = document.getElementById("minYTextBox");
+    const maxYTextBox = document.getElementById("maxYTextBox");
+    minXTextBox.oninput = (e) => {
+        graph.setMinX(minXTextBox.value);
+        start();
+    };
+    maxXTextBox.oninput = (e) => {
+        graph.setMaxX(maxXTextBox.value);
+        start();
+    };
+    minYTextBox.oninput = (e) => {
+        graph.setMinY(minYTextBox.value);
+        start();
+    };
+    maxYTextBox.oninput = (e) => {
+        graph.setMaxY(maxYTextBox.value);
+        start();
+    };
 };
 
 //トークンの出力
