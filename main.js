@@ -65,6 +65,12 @@ window.onload = () => {
     graph =
         new Graph(document.getElementById("canvasFrame").contentWindow
             .document.getElementById("myCanvas"));
+    const scaleTextBox = document.getElementById("scaleTextBox");
+    scaleTextBox.oninput = (e) => {
+        let scale = Number(scaleTextBox.value);
+        graph.setScale(scale, scale);
+        graph.update();
+    };
 };
 
 //トークンの出力
