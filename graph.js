@@ -5,7 +5,13 @@ class Graph {
         this._minY = -this._stage.canvas.height / 2;
         this._maxX = this._stage.canvas.width / 2;
         this._maxY = this._stage.canvas.height / 2;
+        this._extendGraphFunc = {
+            "dot": { "body": (a) => { this.dot(a[0], a[1]); return null; }, "args": 2 }
+        };
+
     }
+
+    get extendGraphFunc() { return this._extendGraphFunc; }
 
     setScale(x, y) {
         this._stage.scaleX = x;
@@ -33,6 +39,11 @@ class Graph {
         dot.graphics.beginFill("black").
             drawRect(this.positionFixX(x), this.positionFixY(y), 1, 1);
         this._stage.addChild(dot);
+    }
+
+    reset() {
+        this._stage.clear();
+        this._stage.removeAllChildren();
     }
 
     update() {
