@@ -62,7 +62,9 @@ wrapExpr
 hscalc.load();
 let graph;
 window.onload = () => {
-    graph = new Graph("myCanvas");
+    graph =
+        new Graph(document.getElementById("canvasFrame").contentWindow
+            .document.getElementById("myCanvas"));
     graph.setScale(1, 1);
 };
 
