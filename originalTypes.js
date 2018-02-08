@@ -42,7 +42,7 @@ hscalc.listShow = (list) => {
     let str = "[";
     while (list.next()) {
         let x = list.get();
-        if (typeof x == "object" && "show" in x)
+        if (typeof x == "object" && x != null && "show" in x)
             str += String(x.show()) + ",";
         else
             str += String(x + ",");
