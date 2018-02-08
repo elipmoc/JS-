@@ -60,7 +60,11 @@ wrapExpr
 
 //hscalcライブラリのロード
 hscalc.load();
-window.onload = () => new Graph("myCanvas");
+let graph;
+window.onload = () => {
+    graph = new Graph("myCanvas");
+    graph.setScale(1, 1);
+};
 
 //トークンの出力
 function TokenListPrint(tokenList) {
@@ -72,13 +76,15 @@ function TokenListPrint(tokenList) {
 }
 
 function start() {
+    graph.reset();
     let lexerRet = hscalc.lexer(document.getElementById("inputText").value);
     TokenListPrint(lexerRet.tokenList);
     if (lexerRet.errorFlag) {
         document.getElementById("resultText").value = "トークンエラー";
         return;
     }
-    let parser = new hscalc.Parser(lexerRet.tokenList);
+    let parser = new hscalc.Parser(lexerRet.tokenList, graph.extendGraphFunc);
     document.getElementById("resultText").value =
         parser.doParse();
+    graph.update();
 }
