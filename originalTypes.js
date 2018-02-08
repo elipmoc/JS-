@@ -41,7 +41,11 @@ hscalc.FuncType = class {
 hscalc.listShow = (list) => {
     let str = "[";
     while (list.next()) {
-        str += String(list.get()) + ",";
+        let x = list.get();
+        if (typeof x == "object" && "show" in x)
+            str += String(x.show()) + ",";
+        else
+            str += String(x + ",");
     }
     list.reset();
     if (str.length != 1)

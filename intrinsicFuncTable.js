@@ -67,6 +67,20 @@ hscalc.IntrinsicFuncTable = class {
                         return new hscalc.ListType(array);
                     }, "args": 2
                 }
+                , "zipWith": {
+                    "body": (a) => {
+                        let array = new Array();
+                        while (a[1].next() && a[2].next()) {
+                            array.push(
+                                a[0].Do(a[1].get())
+                                    .Do(a[2].get())
+                            );
+                        }
+                        a[1].reset();
+                        a[2].reset();
+                        return new hscalc.ListType(array);
+                    }, "args": 3
+                }
                 , "merge": {
                     "body": (a) => {
                         return new
