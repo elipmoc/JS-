@@ -41,6 +41,32 @@ hscalc.IntrinsicFuncTable = class {
                         return temp;
                     }, "args": 2
                 }
+                , "concat": {
+                    "body": (a) => {
+                        let temp;
+                        let array = new Array();
+                        while (a[0].next()) {
+                            temp = a[0].get();
+                            while (temp.next()) {
+                                array.push(temp.get());
+                            }
+                            temp.reset();
+                        }
+                        a[0].reset();
+                        return new hscalc.ListType(array);
+                    }, "args": 1
+                }
+                , "zip": {
+                    "body": (a) => {
+                        let array = new Array();
+                        while (a[0].next() && a[1].next()) {
+                            array.push(new hscalc.ListType([a[0].get(), a[1].get()]));
+                        }
+                        a[0].reset();
+                        a[1].reset();
+                        return new hscalc.ListType(array);
+                    }, "args": 2
+                }
                 , "merge": {
                     "body": (a) => {
                         return new
