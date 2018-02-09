@@ -64,6 +64,18 @@ hscalc.OperatorTable = class {
             , { "name": "||", "body": (a, b) => { return a || b; }, "associative": "left" }
             , { "name": "&&", "body": (a, b) => { return a && b; }, "associative": "left" }
             , { "name": "+", "body": (a, b) => { return a + b; }, "associative": "left" }
+            , {
+                "name": "++", "body": (a, b) => {
+                    let array = new Array();
+                    while (a.next())
+                        array.push(a.get());
+                    while (b.next())
+                        array.push(b.get());
+                    a.reset();
+                    b.reset();
+                    return new hscalc.ListType(array);
+                }, "associative": "left"
+            }
             , { "name": "-", "body": (a, b) => { return a - b; }, "associative": "left" }
             , { "name": "*", "body": (a, b) => { return a * b; }, "associative": "left" }
             , { "name": "/", "body": (a, b) => { return a / b; }, "associative": "left" }
