@@ -73,10 +73,14 @@ hscalc.OperatorTable = class {
                     if (b < 0)
                         return undefined;
                     for (let i = 0; i <= b; i++) {
-                        if (a.next() == false)
+                        if (a.next() == false) {
+                            a.reset();
                             return undefined;
+                        }
                     }
-                    return a.get();
+                    let ret = a.get();
+                    a.reset();
+                    return ret;
                 }, "associative": "left"
             }
             , {
