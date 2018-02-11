@@ -75,6 +75,7 @@ window.onload = () => {
     const maxXTextBox = document.getElementById("maxXTextBox");
     const minYTextBox = document.getElementById("minYTextBox");
     const maxYTextBox = document.getElementById("maxYTextBox");
+    const finenessTextBox = document.getElementById("finenessTextBox");
     minXTextBox.oninput = (e) => {
         graph.setMinX(minXTextBox.value);
         start();
@@ -89,6 +90,10 @@ window.onload = () => {
     };
     maxYTextBox.oninput = (e) => {
         graph.setMaxY(maxYTextBox.value);
+        start();
+    };
+    finenessTextBox.oninput = (e) => {
+        graph.setThinness(finenessTextBox.value);
         start();
     };
 };
