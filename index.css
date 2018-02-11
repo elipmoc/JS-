@@ -23,6 +23,11 @@
     height:70vh;
 }
 
+#docFrame{
+    width:100vw;
+    height:60vh;
+}
+
 #button{
     width:130px;
     height:40px;
